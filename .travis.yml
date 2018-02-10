@@ -1,8 +1,14 @@
 language: ruby
 rvm:
 - 2.3.3
-
-# Assume bundler is being used, therefore
-# the `install` step will run `bundle install` by default.
 script: jekyll build
-
+deploy:
+  provider: s3
+  access_key_id: AKIAIZNPKBMAQKZ2OAYA
+  secret_access_key:
+    secure: fWsJZmynT8JOFdthAbTXQsN5/2pWOMuD6G12FCb5M4IKXjFBQft1iEAq9pvKn9i3IENGMnLzNXyJPNeroY0gig62qn3rGb8kgfGTOKI/wJAwv0kw5jX7aJl6wa8La1KYxg0whKTTTmSR44+8mRdRi71e1H0yF+dv+/UHjil0qR2Zio2rvD/GlJmMKHJfYJb9NL5Pue4PO67abu978njP9NOd5U11FJ3FmD44JOa/3aGSi6SvvUJCodjsnmyB1+2AaVL8hNdCIqReNw2Ee7f0d1rBsDgZz2TuVGvCDspdkHTOIrN+2wjOvhA4/XI09LGooWN2AETUce8z+FHO71fhbtzUMOjgj/8xAe8dTvoUGMSHzYdybrzbfscPt5mcPemF+tWIaat6jcXPoibVewBxJSfLak+anVQDqvKQdVR8zwJ4wAWUYpYPifVANhZppoEvtzQdrZg4a35uE+LVRKdnt6Ocv2ekRF7NXI4RgRkjMFbq2EndOqMIW6XzpQ/ICdQUNlbyODPW+Wh/zqumEP7yaKPkVqR+Odols53pedfEWZXXRM958MDsFMZz03AN5UTM7eP48aNt2fV2v9NUqp1je0K5Q/K1Of249+o6gDMOKxgps8iTMjz9I6qOm1Ucs8DaCJU26gWAWWX9Bei02E4GmMcBUaG5NKzm12Zjzzp7ecE=
+  bucket: ljn.io
+  local-dir: _site/
+  acl: ''
+  on:
+    repo: linusnorton/ljn.io
