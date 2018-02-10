@@ -23,6 +23,6 @@ permalink: /posts/:title/
 rouge: true
 safe: true
 timezone: Europe/London
-gems:
+plugins:
    - jekyll-gist
    - jekyll-youtube
