@@ -10,3 +10,4 @@ deploy:
   bucket: ljn.io
   local-dir: _site/
   skip_cleanup: true
+  region: eu-west-1
