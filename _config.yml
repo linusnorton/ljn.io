@@ -1,0 +1,28 @@
+
+# Site details
+lang: en
+host: localhost
+
+# Author Details
+author:
+  name: Linus Norton
+  email: linusnorton@gmail.com
+
+# Blog Details
+blog:
+  name: Brain dump
+
+# Jekyll config
+exclude:
+  - CNAME
+  - Makefile
+  - README.md
+future: false
+lsi: false
+permalink: /posts/:title/
+rouge: true
+safe: true
+timezone: Europe/London
+gems:
+   - jekyll-gist
+   - jekyll-youtube

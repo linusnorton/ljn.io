@@ -1,0 +1,49 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.linus {
+    background-size: 100%;
+    background-image: url(/asset/img/me2.jpg);
+    height: 250px;
+}
+
+p {
+    font-size: 1.14rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.3rem;
+}
+
+ul { 
+   list-style-type: disc; 
+   list-style-position: outside; 
+   margin-left: 1.7rem;
+}
+
+ul li {
+    list-style-type: inherit;
+    margin-left: 0.2rem;
+}
+
+ul ul { 
+   list-style-type: circle; 
+   list-style-position: outside; 
+}
+
+.divider-new, .text-fluid, h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    padding-top: 1rem;
+}
+
+.card-block p {
+    padding: 0;
+}
+
+pre {
+    background-color: #efefef;
+    padding: 0.3rem 0.5rem;
+}
+
+.post {
+    padding: 0 2rem 0 2rem;
+}

@@ -1,0 +1,22 @@
+
+<!-- List of blog posts -->
+
+{% for post in site.posts %}
+    <div class="card">
+        <div class="card-block">
+            <h2><a href="{{post.url}}">{{post.title}}</a></h2>
+            <p>{{post.description}}</p> 
+            <p>
+                <i class="pull-left">        
+                    Posted
+                    <time itemprop="dateCreated" datetime="{{ post.date | date: '%Y-%m-%dT%H:%M:%SZ' }}">
+                        {{ post.date | date: '%d %B %Y' }}
+                    </time>
+                </i>
+                <a href="{{post.url}}" class="link-text pull-right"><h5>Read <i class="fa fa-chevron-right"></i></h5></a>
+            </p>
+            <!-- <a href="{{post.url}}" class="btn btn-default btn-rounded">Read</a> -->
+            <!--<p><a href="{{post.url}}" class="btn btn-primary btn-lg">Read post</a></p>-->
+        </div>
+    </div>
+{% endfor %}
