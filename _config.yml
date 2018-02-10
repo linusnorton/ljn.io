@@ -17,6 +17,7 @@ exclude:
   - CNAME
   - Makefile
   - README.md
+  - vendor/
 future: false
 lsi: false
 permalink: /posts/:title/
@@ -26,3 +27,4 @@ timezone: Europe/London
 plugins:
    - jekyll-gist
    - jekyll-youtube
+  
