@@ -11,3 +11,8 @@ deploy:
   local-dir: _site/
   skip_cleanup: true
   region: eu-west-1
+  on:
+    branch: master
+  after_deploy:
+    - aws configure set preview.cloudfront true
+    - test $TRAVIS_BRANCH = "master" && aws cloudfront create-invalidation --distribution-id E11Q1NBTQOBVWQ --paths "/*"
