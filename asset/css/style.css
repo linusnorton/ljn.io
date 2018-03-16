@@ -9,9 +9,9 @@ body {
 }
 
 p {
-    font-size: 1.14rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.3rem;
+    font-size: 1.05rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.2rem;
 }
 
 ul { 
@@ -40,10 +40,62 @@ ul ul {
 }
 
 pre {
+    font-size: 0.8rem;
     background-color: #efefef;
-    padding: 0.3rem 0.5rem;
+    padding: 0.5rem 0.7rem;
 }
 
 .post {
     padding: 0 2rem 0 2rem;
+}
+
+.summary .card {
+    border: 0;
+    width: 545px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 10px; 
+    height: 250px;   
+}
+
+.summary .card:nth-child(even) { 
+  margin-right: 0px;
+}
+
+.summary .card:nth-child(odd) { 
+  margin-left: 0px;
+}
+
+.margin-top {
+  margin-top: 15px;
+}
+
+.read-text {
+  position: absolute;
+  top: 200px;
+  left: 475px;
+}
+
+.summary .card h3 {
+  margin-top: 0px;
+  margin-bottom: 3px;
+  padding-top: 0px;
+}
+
+.half-width-image img {
+  margin-bottom: 4px;
+  border: 1px solid #eee;
+}
+
+.half-width-image {
+  width: 500px; 
+  margin: 0px 20px 5px 20px
+}
+
+.half-width-image:nth-child(even) { 
+  margin-right: 0px;
+}
+
+.half-width-image:nth-child(odd) { 
+  margin-left: 0px;
 }
