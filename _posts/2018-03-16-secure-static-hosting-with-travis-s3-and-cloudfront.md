@@ -93,6 +93,7 @@ node_js:
 - 9
 install:
   - pip install --user awscli
+script: exit 0
 deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY_ID
