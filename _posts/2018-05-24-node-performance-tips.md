@@ -76,6 +76,7 @@ As an aside, JavaScript logical operators (`||`, `&&`, `!`) do not always return
 Internally, V8 has many types of array but they fall in to one of two categories:
 
 1) Holey arrays
+
 2) Packed arrays
 
 A holey array is "sparse" and has gaps in between elements, whereas packed arrays have no gaps.
@@ -169,6 +170,8 @@ The reason for the performance difference is that after `shift()` takes the item
 
 Despite many recent improvements in V8, `delete` is still a keyword to avoid. Using `delete` to remove a property from an object will switch the objects internal representation to a slow object, killing many optimizations.
 
+Avoiding `delete` can be tricky. Setting the propery to `null` or `undefined` is common, and [faster](https://jsperf.com/delete-vs-undefined-vs-null/16), but the key will still exist in the object.
+
 #### 7) Caching and memoization
 
 Performance is often a trade off between CPU time and memory usage. Memory is cheap, so where possible make use of it to avoid repetitive calculations.
@@ -187,7 +190,7 @@ const index = items.reduce((p, c) => {
 }, {});
 
 const slowFind = items.includes("pear"); // o(n)
-const fastFind = index["pair"]; // o(1)
+const fastFind = index["pear"]; // o(1)
 ```
 
 #### 9) Avoid garbage collection
