@@ -84,7 +84,7 @@ Unfortunately, we have to explicitly pass the fields we want our validator to ch
 type NotUndefined<T> = Exclude<T, undefined>;
 type MandatoryPropertiesNames<T> = { [K in keyof T]: T[K] extends NotUndefined<T[K]> ? K : never }[keyof T];
 
-function isValid<T>(mandatory: MandatoryPropertiesNames<T>, request: Partial<T>): request is T {
+function isValid<T>(mandatory: MandatoryPropertiesNames<T>[], request: Partial<T>): request is T {
   return mandatory.every(field => request[field] !== undefined);
 }
 ```
