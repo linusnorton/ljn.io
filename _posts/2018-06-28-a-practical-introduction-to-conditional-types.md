@@ -69,11 +69,11 @@ Now when our handler accesses the `name` property it knows it will be a `string`
 
 ```typescript
 function handler(request: Partial<Request>) {
-  if (!isValid(["name", "email"], request)) {
+  if (!isValid(["name", "age"], request)) {
     throw new BadRequest(400, "Missing field");    
   }
 
-  const firstName = request.name.substr(0, request.name.indexOf(" "));
+  const [firstName, lastName] = request.name.split(" ");
 }
 ```
 
@@ -120,7 +120,7 @@ The type information here is not entirely accurate meaning our handler wouldn't 
 
 ```typescript
 function handler(request: Partial<Request>): Response {
-  if (!isValid(["name", "email"], request)) {
+  if (!isValid(["name", "age"], request)) {
     throw new BadRequest(400, "Missing field");    
   }
 
