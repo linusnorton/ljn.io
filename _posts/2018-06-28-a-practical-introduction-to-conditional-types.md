@@ -53,7 +53,8 @@ This results in a compilation error because the type of `request.name` is now `s
 {
   name?: string,
   age?: number,
-  favouriteColour?: "red" | "blue" | "green"
+  favouriteColour?: "red" | "blue" | "green",
+  petsName?: string;  
 }
 ```
 
