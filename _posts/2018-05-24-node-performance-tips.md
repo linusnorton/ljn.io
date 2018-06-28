@@ -2,7 +2,7 @@
 title: Node.js (JavaScript) performance tips
 date: 2018-05-24 06:00
 lastmod: 2018-05-24 06:00
-description: JavaScript, can be a fast language - if you use it correctly. Here's my list of performance tips for node.js 10.x (V8 6.6)
+description: JavaScript can be a fast language - if you use it correctly. Here's my list of performance tips for node.js 10.x (V8 6.6)
 layout: post
 ---
 
