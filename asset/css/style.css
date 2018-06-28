@@ -9,14 +9,13 @@ body {
 }
 
 p {
-    font-size: 1.05rem;
     padding-top: 0.3rem;
     padding-bottom: 0.2rem;
 }
 
-ul { 
-   list-style-type: disc; 
-   list-style-position: outside; 
+ul {
+   list-style-type: disc;
+   list-style-position: outside;
    margin-left: 1.7rem;
 }
 
@@ -25,9 +24,9 @@ ul li {
     margin-left: 0.2rem;
 }
 
-ul ul { 
-   list-style-type: circle; 
-   list-style-position: outside; 
+ul ul {
+   list-style-type: circle;
+   list-style-position: outside;
 }
 
 .divider-new, .text-fluid, h1, h2, h3, h4, h5, h6 {
@@ -54,15 +53,15 @@ pre {
     width: 545px;
     float: left;
     margin-right: 10px;
-    margin-left: 10px; 
-    height: 250px;   
+    margin-left: 10px;
+    height: 250px;
 }
 
-.summary .card:nth-child(even) { 
+.summary .card:nth-child(even) {
   margin-right: 0px;
 }
 
-.summary .card:nth-child(odd) { 
+.summary .card:nth-child(odd) {
   margin-left: 0px;
 }
 
@@ -88,14 +87,14 @@ pre {
 }
 
 .half-width-image {
-  width: 500px; 
+  width: 500px;
   margin: 0px 20px 5px 20px
 }
 
-.half-width-image:nth-child(even) { 
+.half-width-image:nth-child(even) {
   margin-right: 0px;
 }
 
-.half-width-image:nth-child(odd) { 
+.half-width-image:nth-child(odd) {
   margin-left: 0px;
 }
