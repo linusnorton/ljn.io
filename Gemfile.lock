@@ -249,6 +249,7 @@ DEPENDENCIES
   jekyll
   jekyll-gist
   jekyll-youtube
+  rouge
 
 BUNDLED WITH
    1.16.1

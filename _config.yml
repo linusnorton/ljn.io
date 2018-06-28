@@ -27,4 +27,5 @@ timezone: Europe/London
 plugins:
    - jekyll-gist
    - jekyll-youtube
+highlighter: rouge
   

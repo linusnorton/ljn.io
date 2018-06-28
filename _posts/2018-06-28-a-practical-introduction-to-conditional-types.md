@@ -8,7 +8,8 @@ layout: post
 
 Conditional types were the headline feature in [TypeScript 2.8](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html) but their use cases are not immediately obvious. The documentation describes a conditional type as:
 ```
-... the ability to express non-uniform type mappings. A conditional type selects one of two possible types based on a condition expressed as a type relationship test:
+... the ability to express non-uniform type mappings. A conditional type selects one of two possible types based
+on a condition expressed as a type relationship test:
 
 T extends U ? X : Y
 
@@ -21,7 +22,7 @@ For mere mortals, it is an if statement for types. It's certainly an interesting
 
 Starting with a simple case we can define a request:
 
-```
+```typescript
 interface Request {
   name: string,
   age: number,
@@ -32,7 +33,7 @@ interface Request {
 
 In this request the `name` and `age` must be set but the `favouriteColour` and `petsName` fields are optional. Our request handler will process a request from the HTTP framework (e.g. express/koa):
 
-```
+```typescript
 function handler(request: Request) {
   const [firstName, lastName] = request.name.split(" ");
 }
@@ -40,15 +41,15 @@ function handler(request: Request) {
 
 The issue with this is that we don't know whether our `handler` function is going to receive a complete request or not. If we were to be more accurate the `handler` would be defined as:
 
-```
+```typescript
 function handler(request: Partial<Request>) {
   const [firstName, lastName] = request.name.split(" ");
 }
 ```
 
-This will result in a compilation error because the type of `request.name` is now `string | undefined`, as `Partial<Request>` results in:
+This results in a compilation error because the type of `request.name` is now `string | undefined`, as `Partial<Request>` is:
 
-```
+```typescript
 {
   name?: string,
   age?: number,
@@ -58,7 +59,7 @@ This will result in a compilation error because the type of `request.name` is no
 
 Our request validator can assert that the `Partial<Request>` we receive is actually a `Request` by checking that every mandatory property is not `undefined`:
 
-```
+```typescript
 function isValid<T>(mandatory: string[], request: Partial<T>): request is T {
   return mandatory.every(field => request[field] !== undefined);
 }
@@ -66,7 +67,7 @@ function isValid<T>(mandatory: string[], request: Partial<T>): request is T {
 
 Now when our handler accesses the `name` property it knows it will be a `string` and not `undefined`:
 
-```
+```typescript
 function handler(request: Partial<Request>) {
   if (!isValid(["name", "email"], request)) {
     throw new BadRequest(400, "Missing field");    
@@ -78,7 +79,7 @@ function handler(request: Partial<Request>) {
 
 Unfortunately, we have to explicitly pass the fields we want our validator to check as TypeScript doesn't maintain any type information at runtime (because it's just JavaScript!). However, we can add a little bit of type safety to our validator using conditional types to assert that the fields we receive are the non optional keys of `Request`.
 
-```
+```typescript
 type NotUndefined<T> = Exclude<T, undefined>;
 type MandatoryPropertiesNames<T> = { [K in keyof T]: T[K] extends NotUndefined<T[K]> ? K : never }[keyof T];
 
@@ -91,13 +92,13 @@ The `NotUndefined<T>` type will exclude `undefined` from a list of types, so if 
 
 Using conditional types we can construct a list of mandatory properties of an object by asserting that the type of the key is the same as the as the type of the key without `undefined`:
 
-```
+```typescript
 T[K] extends NotUndefined<T[K]>
 ```
 
 If this statement holds, then the type of `K` is set to `K`, otherwise it is set to `never`:
 
-```
+```typescript
 T[K] extends NotUndefined<T[K]> ? K : never
 ```
 
@@ -109,7 +110,7 @@ Now if we passed `["name", "petsName"]` as mandatory fields we'd get compilation
 
 We may also want to populate the optional properties in our request with a default value:
 
-```
+```typescript
 function withDefaults<T>(defaults: object, request: T): T {
   return Object.assign({}, defaults, request);
 }
@@ -117,8 +118,7 @@ function withDefaults<T>(defaults: object, request: T): T {
 
 The type information here is not entirely accurate meaning our handler wouldn't know that the optional parameters have been set:
 
-```
-
+```typescript
 function handler(request: Partial<Request>): Response {
   if (!isValid(["name", "email"], request)) {
     throw new BadRequest(400, "Missing field");    
@@ -134,8 +134,7 @@ The type of `requestWithDefaults.favouriteColour` is still `"red" | "blue" | "gr
 
 We can tighten up the type information by being more specific about the default parameters and return type:
 
-```
-
+```typescript
 type OptionalPropertiesNames<T> = { [K in keyof T]: T[K] extends NotUndefined<T[K]> ? never : K }[keyof T];
 type OptionalProperties<T> = Pick<T, OptionalPropertiesNames<T>>;
 type Complete<T extends object> = { [K in keyof T]-?: T[K]; };
@@ -147,7 +146,7 @@ function withDefaults<T>(defaults: Complete<OptionalProperties<T>>, request: T):
 
 The `Complete<T>` type returns a version of `T` where all optional properties have been set to required. The return type of our function becomes `Complete<Request>`:
 
-```
+```typescript
 {
   name: string,
   age: number,
@@ -160,7 +159,7 @@ This means `favouriteColour` and `petsName` can now be used without having to ch
 
 The `OptionalPropertiesNames<T>` type is the inverse of `MandatoryPropertiesNames<T>` - all the properties that can be set to `undefined`. We can use the in built `Pick` type to extract those properties from another type:
 
-```
+```typescript
 type OptionalProperties<Request> = {
   favouriteColour?: "red" | "blue" | "green",
   petsName?: string;
@@ -169,7 +168,7 @@ type OptionalProperties<Request> = {
 
 Wrapping `OptionalProperties<Request>` with `Complete` means that the `defaults` value passed in to the `withDefaults` function must have **every** optional parameter set.
 
-For instance passing `{ favouriteColour: "red" }` to `withDefaults` would result in a compilation error because the default value for `petsName` was not given.
+For instance passing `{ favouriteColour: "red" }` to `withDefaults` results in a compilation error because the default value for `petsName` was not given.
 
 ## The holes waiting to be filled
 
