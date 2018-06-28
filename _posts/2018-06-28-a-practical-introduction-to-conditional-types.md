@@ -91,7 +91,7 @@ function isValid<T>(mandatory: MandatoryPropertiesNames<T>[], request: Partial<T
 
 The `NotUndefined<T>` type will exclude `undefined` from a list of types, so if we pass it `string | number | undefined` then the result will be `string | number`.
 
-Using conditional types we can construct a list of mandatory properties of an object by asserting that the type of the key is the same as the as the type of the key without `undefined`:
+Using conditional types we can construct a list of mandatory properties of an object by asserting that the type of the key is the same as the type of the key without `undefined`:
 
 ```typescript
 T[K] extends NotUndefined<T[K]>
