@@ -86,6 +86,8 @@ Decentralizing the creation of UK rail tickets is achievable, but it relies on a
 
 The UK government has [provided £80 million](https://www.gov.uk/government/news/government-plans-80-million-smart-ticketing-rail-revolution) to speed up the adoption of electronic tickets making decentralized ticket creation the next logical step.
 
+All UK rail ticketing systems need accreditation as a form of trust, and until all these steps can be decentralized that will continue to be the case. In the meantime, we'll continue with accreditation and aim to provide customers with live train tickets by the end of the year.
+
 ## Try it out
 
 You can try out [traintickets.to](https://traintickets.to/) today. It's currently in beta and operating on the Ropsten network. While it is connected to real industry systems, any tickets retailed will not be available for collection at the station as it is in test mode.
