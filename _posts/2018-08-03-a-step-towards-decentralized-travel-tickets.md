@@ -35,7 +35,7 @@ The website sends a request to the retailer API for journey and fare information
 ![querying](/asset/img/a-step-towards-decentralized-travel-tickets/1.png)
 </div>
 
-The results are displayed on the website. After selecting result, the user purchases a ticket by executing the contract through the website.
+The results are displayed on the website. After selecting a result, the user purchases a ticket by executing the contract through the website.
 
 ##### 2) Retailing
 
