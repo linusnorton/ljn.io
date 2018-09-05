@@ -1,7 +1,7 @@
 ---
 title: Notes on node.js streams
-date: 2018-10-05 06:00
-lastmod: 2018-10-05 06:00
+date: 2018-09-05 06:00
+lastmod: 2018-09-05 06:00
 description: Notes on using streams in node.js
 layout: post
 ---
