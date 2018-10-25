@@ -10,7 +10,7 @@ layout: post
 Microsoft's 2012 paper, [Round Based Public Transit Routing](https://www.microsoft.com/en-us/research/wp-content/uploads/2012/01/raptor_alenex.pdf) introduces a new journey planning algorithm: the RoundbAsed
 Public Transit Optimized Router. Better known as Raptor.
 
-The algorithm has proven to be popular, being incorporated into [OpenTripPlanner](https://groups.google.com/d/msg/opentripplanner-dev/R8g9I1kId_4/mc8y0y1ZAwAJ) and other journey planners. It boasts good query times but most importantly, no pre-processing and pareto-optimal journeys out of the box.
+The algorithm has proven to be popular, quickly being incorporated into [OpenTripPlanner](https://groups.google.com/d/msg/opentripplanner-dev/R8g9I1kId_4/mc8y0y1ZAwAJ) and other journey planners. It boasts good query times but most importantly, no pre-processing and pareto-optimal journeys out of the box.
 
 Raptor's multi-criteria nature means it solves the Earliest Arrival Problem (EAP) while also returning journeys with the minimum number of transfers or within a certain fare zone.
 
