@@ -59,7 +59,7 @@ However, it is also possible that this is a simple typo:
 
 τ<sub>k</sub>(p′) ← min{τ<sub>k</sub>(p′), τ<sub>k</sub>(p) + ζ(p, p′)}
 
-Describes how to update to time at `p′` if there is a footpath. Take the minimum of the current arrival time at `p′` and the arrival time at `p` in round k plus the duration of the footpath between `p` and `p′` (τ<sub>k</sub>(p) + ζ(p, p′)).
+Describes how to update the earliest arrival time at `p′` if there is a footpath. Take the minimum of the current arrival time at `p′` and the arrival time at `p` in round k plus the duration of the footpath between `p` and `p′` (τ<sub>k</sub>(p) + ζ(p, p′)).
 
 I believe the arrival time with the footpath should use the arrival time a `p` from the previous round:
 
