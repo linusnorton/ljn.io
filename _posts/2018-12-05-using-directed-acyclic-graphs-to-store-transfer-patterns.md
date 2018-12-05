@@ -117,10 +117,10 @@ function getPaths(graph, path, origin, current) {
 
     // return paths to all parent nodes until the root node is reached
     for (const previous of graph[current].previous) {
-      paths.push(...getPaths(graph, path, origin, previous));
+      paths.push(...getPaths(graph, path.slice(), origin, previous));
     }
 
-    return graphs;
+    return paths;
   }
 }
 
