@@ -98,7 +98,7 @@ Alternatively, it can be represented as a [doubly-linked list](https://en.wikipe
 }
 ```
 
-## Extracting paths from a DAG
+# Extracting paths from a DAG
 
 How the data structure is stored will depend on the application. In this case it's beneficial to store it as a doubly linked list so the path to the specific node being requested can be extracted efficiently. Using the simplified JSON structure would require a [breadth](https://en.wikipedia.org/wiki/Breadth-first_search) or [depth](https://en.wikipedia.org/wiki/Depth-first_search) first search from the root node (origin) to the destination. As the location of the destinations in the graph are not known, a full scan of the entire graph is required.
 
@@ -134,7 +134,7 @@ const paths = getPaths(graph, [], "A", "E");
  * ]
 ```
 
-In our use case the `next` property is not used, so it is possible to revert to the simplified data structure using the list items as references to the parent rather than leaf nodes:
+In our use case the `next` property is not used, so it is possible to revert to the simplified data structure using the list items as references to the parent, rather than leaf nodes:
 
 ```
 {
@@ -179,3 +179,7 @@ function mergeGraph(graphA, graphB) {
 ```
 
 Depending on the language used to implement the algorithm it may be more efficient to use a `Set` to store the next and previous values.
+
+# DAGs
+
+DAGs are a useful data structure that are a natural fit for transfer patterns. Each station can have it's own transfer pattern graph that is used to look up how to get to every other station in the network. In theory, it is possible to store the whole graph for every station in a single graph but this would need to be cyclic. In essence it would be a direct representation of the network topology and it would not be possible to run an efficient algorithm to look up a path between two stations. 
