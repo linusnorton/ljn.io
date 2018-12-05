@@ -9,11 +9,11 @@ layout: post
 
 Directed acyclic graphs (DAGs) are a data structure that show up in all sorts of fields: [distributed ledgers](https://www.iota.org/), [word counting](https://en.wikipedia.org/wiki/Deterministic_acyclic_finite_state_automaton) and [journey planning](https://ad.informatik.uni-freiburg.de/files/transferpatterns.pdf). One of the properties that make them useful is they can represent many variations using a small amount of memory:
 
-![directed-acyclic-graph](/asset/img/directed-acyclic-graphs/directed-acyclic-graph.svg)
+![directed-acyclic-graph](/asset/img/directed-acyclic-graphs/directed-acyclic-graph.svg){: .center }
 
 In fact, a tree structure is just a DAG where the parent has been restricted to a single node:
 
-![tree](/asset/img/directed-acyclic-graphs/tree.svg)
+![tree](/asset/img/directed-acyclic-graphs/tree.svg){: .center }
 
 # Transfer patterns
 
@@ -182,4 +182,4 @@ Depending on the language used to implement the algorithm it may be more efficie
 
 # DAGs
 
-DAGs are a useful data structure that are a natural fit for transfer patterns. Each station can have it's own transfer pattern graph that is used to look up how to get to every other station in the network. In theory, it is possible to store the whole graph for every station in a single graph but this would need to be cyclic. In essence it would be a direct representation of the network topology and it would not be possible to run an efficient algorithm to look up a path between two stations. 
+DAGs are a useful data structure that are a natural fit for transfer patterns. Each station can have it's own transfer pattern graph that is used to look up how to get to every other station in the network. In theory, it is possible to store the whole graph for every station in a single graph but this would need to be cyclic. In essence it would be a direct representation of the network topology and it would not be possible to run an efficient algorithm to look up a path between two stations.

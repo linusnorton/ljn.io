@@ -98,3 +98,10 @@ pre {
 .half-width-image:nth-child(odd) {
   margin-left: 0px;
 }
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
