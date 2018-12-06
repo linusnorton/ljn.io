@@ -1,7 +1,7 @@
 ---
 title: Using directed acyclic graphs to store transfer patterns
-date: 2018-12-05 05:00
-lastmod: 2018-12-05 05:00
+date: 2018-12-15 05:00
+lastmod: 2018-12-15 05:00
 description: >
   Different approaches to storing and merging directed acyclic graphs.
 layout: post
