@@ -1,7 +1,7 @@
 ---
 title: Using directed acyclic graphs to store transfer patterns
-date: 2018-12-15 05:00
-lastmod: 2018-12-15 05:00
+date: 2018-12-10 05:00
+lastmod: 2018-12-10 05:00
 description: >
   Different approaches to storing and merging directed acyclic graphs.
 layout: post
@@ -11,7 +11,7 @@ Directed acyclic graphs (DAGs) are a data structure that show up in all sorts of
 
 ![directed-acyclic-graph](/asset/img/directed-acyclic-graphs/directed-acyclic-graph.svg){: .center }
 
-In fact, a tree structure is just a DAG where the parent has been restricted to a single node:
+In fact, the more common [tree structure](https://en.wikipedia.org/wiki/Tree_(data_structure)) is just a DAG where the parent has been restricted to a single node:
 
 ![tree](/asset/img/directed-acyclic-graphs/tree.svg){: .center }
 
@@ -24,7 +24,7 @@ A->E = [A->B->C->D->E, A->C->E]
 A->C = [A->B->C, A->C]
 ```
 
-This approach is simple but not memory efficient. Travelling from A to E and travelling from A to C share much of the same information. Stored as a tree this information becomes:
+This approach is simple, but not memory efficient. Travelling from A to E and travelling from A to C share much of the same information. Stored as a tree this information becomes:
 
 ```
     A
@@ -72,59 +72,99 @@ A->E = [
 ]
 ```
 
-It's appropriate to use a DAG to store transfer patterns as any path to a node may be optimal, therefore any subsequent nodes may need that path. For example, if either A->C or A->B->C may be fastest and travelling to E requires a path via C, both A->C and A->B->C are potentially valid for any path to E.
-
-There is no strict definition for the best way to represent a DAG, but using JSON it would become:
+While this may not seem a problem at first, merging in a path from A to C, via D `[A, B, D, C]` creates a cycle as C has a parent of D and D has a parent of C. The directed acyclic graph is now just a directed graph. To avoid cyclic graphs each path can only be merged from the point it becomes identical to another path. Using our example above, adding `[A, B, D, C]` would share a path with `[A, B, C, D]` from B:
 
 ```
-{
-  "A": ["B", "C"],
-  "B": ["C"],
-  "C": ["D", "E"],
-  "D": ["E"],
-  "E": []
+     A
+    / \
+   B   C
+ / |   |
+D  C   E
+|  |
+C  D
+   |
+   E
+```
+
+There is no strict definition for the best way to represent a DAG, as such it can be represented in many ways. A [tree](https://en.wikipedia.org/wiki/Tree_(data_structure)) can be used to represent a top down view, starting at the root node (A) and traversing down to the leaves:
+
+```
+const tree = [
+  {
+    label: "A",
+    leaves: [
+      {
+        label: "B",
+        leaves: [
+          { label: "C", leaves: [ ... ] },
+        ]
+      },
+      { label: "C", leaves: [ ... ] },
+    ]
+  }
+]
+```
+
+Alternatively, it can be represented from the bottom up using a [linked list](https://en.wikipedia.org/wiki/Linked_list) where the next element is a reference to the parent node. With this method each path becomes it's own unique list, but elements of the list a re-used to save memory:
+
+```
+const pathFromB = {
+  label: "B",
+  next: {
+    label: "A",
+    next: null
+  }
+};
+
+const firstFromD = {
+  label: "D",
+  next: {
+    label: "C",
+    next: pathFromB
+  }
 }
-```
 
-Alternatively, it can be represented as a [doubly-linked list](https://en.wikipedia.org/wiki/Doubly_linked_list) where the next and previous node is an array of elements:
-
-```
-{
-  "A": { "previous": [], "next": ["B", "C"] },
-  "B": { "previous": ["A"], "next": ["C"] },
-  "C": { "previous": ["A", "B"], "next": ["D", "E"] },
-  "D": { "previous": ["C"], "next": ["E"] },
-  "E": { "previous": ["C", "D"], "next": [] }
+const secondFromD = {
+  label: "D",
+  next: pathFromB
 }
+
 ```
+
+The next element is the node label and index of the path in that nodes paths
 
 # Extracting paths from a DAG
 
-How the data structure is stored will depend on the application. In this case it's beneficial to store it as a doubly linked list so the path to the specific node being requested can be extracted efficiently. Using the simplified JSON structure would require a [breadth](https://en.wikipedia.org/wiki/Breadth-first_search) or [depth](https://en.wikipedia.org/wiki/Depth-first_search) first search from the root node (origin) to the destination. As the location of the destinations in the graph are not known, a full scan of the entire graph is required.
+How the data structure is stored will depend on the application. In this case it's beneficial to store it as a linked list so the path to the specific node being requested can be extracted efficiently. Using the top down approach would require a [breadth](https://en.wikipedia.org/wiki/Breadth-first_search) or [depth](https://en.wikipedia.org/wiki/Depth-first_search) first search from the root node (origin) to the destination. As the location of the destinations in the graph are not known, a full scan of the entire graph is required.
 
-Using the doubly linked list it is possible to go directly to the leaf node (the destination) and follow all paths back to the root. As the graph is acyclic reaching the root node is guaranteed in the most efficient time possible.
+Using the linked list it is possible to go directly to the leaf node (the destination) and follow all paths back to the root. As the graph is acyclic reaching the root node is guaranteed in the most efficient time possible.
 
 ```
-function getPaths(graph, path, origin, current) {
-  // put the current node at the head of the list
-  path.unshift(current);
-
-  if (current === origin) {
-    return [path];
-  }
-  else {
-    const paths = [];
-
-    // return paths to all parent nodes until the root node is reached
-    for (const previous of graph[current].previous) {
-      paths.push(...getPaths(graph, path.slice(), origin, previous));
-    }
-
-    return paths;
-  }
+// variables with & denote a reference
+const graph = {
+  "A": [{ label: "A", next: null }],
+  "B": [{ label: "B", next: &A }],
+  "C": [
+    { label: "C", next: &B },
+    { label: "C", next: &A }
+  ],
+  "D": [
+    { label: "D", next: &C },
+    { label: "D", next: &B }
+  ],
+  "E": [
+    { label: "E", next: &D },
+    { label: "E", next: &C1 }
+  ]
 }
 
-const paths = getPaths(graph, [], "A", "E");
+function getPath(node, path) {
+  path.unshift(node.label);
+
+  return node.parent ? getPath(node.parent, path) : path;
+}
+
+const paths = graph["E"].map(node => getPath(node, []));
 
 /* paths = [
  *   ["A", "C", "E"],
@@ -134,52 +174,45 @@ const paths = getPaths(graph, [], "A", "E");
  * ]
 ```
 
-In our use case the `next` property is not used, so it is possible to revert to the simplified data structure using the list items as references to the parent, rather than leaf nodes:
-
-```
-{
-  "A": [],
-  "B": ["A"],
-  "C": ["A", "B"],
-  "D": ["C"],
-  "E": ["C", "D"]
-}
-```
-
 # Merging Directed Acyclic Graphs
 
-During the generation of transfer patterns it's necessary to merge new patterns into the tree. There's no standard algorithm to merge DAGs because the algorithm will depend on the data structure used to store the DAG. For the example above, it's a simple case of iterating each node in the graph and merging array into a unique set of nodes.
+During the generation of transfer patterns it's necessary to merge new patterns into the tree. There's no standard algorithm to merge DAGs because the algorithm will depend on the data structure used to store the DAG. For the example above, new paths are added to each node until a point is reached where the rest of the path already exists in the graph:
 
 ```
-const graphA = {
-  "A": [],
-  "B": ["A"],
-  "C": ["B"],
-  "D": ["C"],
-  "E": ["D"]
-}
+function merge([head, ...tail], results) {
+  results[head] = results[head] || [];
 
-const graphB = {
-  "A": [],
-  "C": ["A"],
-  "E": ["C"]
-}
+  // search for an identical path in the tree
+  let node = results[head].find(n => isSame(tail, n.parent));
 
-// merges graphB into graphA
-function mergeGraph(graphA, graphB) {
-  for (const node in graphB) {
-    // ensure the node exists in the target graph
-    graphA[node] = graphA[node] || [];
+  // if there isn't one
+  if (!node) {
+    // merge the tail of the path
+    const parent = tail.length > 0 ? merge(tail, results) : null;
 
-    // insert every parent node from graphB that is not already in graphA
-    const parents = graphB[node].every(n => !graphA[node].includes(n));
-    graphA[node].push(...parents);
+    // create a node maintaining a reference to the parent path
+    node = { label: head, parent: parent };
+
+    // add the node to result set for the stop "head"
+    results[head].push(node);
   }
+
+  return node;
+}
+
+function isSame(path, node) {
+  for (let i = 0; node; i++, node = node.parent) {
+    if (node.label !== path[i]) {
+      return false;
+    }
+  }
+
+  return true;
 }
 ```
 
-Depending on the language used to implement the algorithm it may be more efficient to use a `Set` to store the next and previous values.
-
-# DAGs
+# Benefits
 
 DAGs are a useful data structure that are a natural fit for transfer patterns. Each station can have it's own transfer pattern graph that is used to look up how to get to every other station in the network. In theory, it is possible to store the whole graph for every station in a single graph but this would need to be cyclic. In essence it would be a direct representation of the network topology and it would not be possible to run an efficient algorithm to look up a path between two stations.
+
+Taking the UK rail network as an example, a single station's transfers pattern use roughly 12mb of memory when using a DAG and 32mb when storing as a plain key/value string. It should be noted that the storing references to variables is not possible in JSON and it's necessary to pre-process the DAG when loading it from disk or database.
