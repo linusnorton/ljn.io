@@ -36,7 +36,7 @@ class DocumentMerger {
   constructor() {
     this.tableOfContents.addText("Table of contents");
     this.tableOfContents.addText("-----------------");
-    this.document.appendPage(page);
+    this.baseDocument.appendPage(page);
   }
 
   merge(documents) {
@@ -81,7 +81,7 @@ class DocumentMerger {
 
     tableOfContents.addText("Table of contents");
     tableOfContents.addText("-----------------");
-    document.appendPage(tableOfContents);
+    baseDocument.appendPage(tableOfContents);
 
     for (const document of documents) {
       baseDocument.appendDocument(document);
@@ -112,7 +112,7 @@ class DocumentMerger {
     function initTableOfContents() {
       tableOfContents.addText("Table of contents");
       tableOfContents.addText("-----------------");
-      document.appendPage(tableOfContents);
+      baseDocument.appendPage(tableOfContents);
     }
 
     function addDocuments() {
@@ -147,7 +147,7 @@ class DocumentMerger {
   DocumentMerger() {
     this.tableOfContents.addText("Table of contents");
     this.tableOfContents.addText("-----------------");
-    this.document.appendPage(page);
+    this.baseDocument.appendPage(page);
   }
 
   synchronized public Document merge(List<Document> documents) {
@@ -188,7 +188,7 @@ class DocumentMerger {
     public MutableDocumentMerger() {
       this.tableOfContents.addText("Table of contents");
       this.tableOfContents.addText("-----------------");
-      this.document.appendPage(page);
+      this.baseDocument.appendPage(page);
     }
 
     public Document merge(List<Document> documents) {
