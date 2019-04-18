@@ -50,7 +50,7 @@ function paretoOptimalFilter(journeyA, i, journeys) {
 Adding price or other comparators can be done in a similar manner, but at this point the code is becoming repetitive so each criteria can be extracted into it's own rule:
 
 ```javascript
-const earliestArrival = (a, b) => b.departureTime >= b.departureTime && b.arrivalTime < b.arrivalTime;
+const earliestArrival = (a, b) => b.departureTime >= a.departureTime && b.arrivalTime < a.arrivalTime;
 const leastChanges = (a, b) => b.legs.length <= a.legs.length;
 const cheapest = (a, b) => b.price <= a.price;
 const criteria = [earliestArrival, leastChanges, cheapest];
@@ -65,12 +65,12 @@ function paretoOptimalFilter(a, i, journeys) {
 
 Performance is an important factor in all journey planners and there are some improvements that can be made with the above code. During the comparison every journey `n` is compared with every criteria `m` and every other journey. JavaScript will short circuit the `some` and `every` functions but in a worst case scenario it leads to a performance profile of `O(nm^2)`. While the number of criteria and journeys remain small this may not be a problem but when working with full day queries that return thousands of results it can add noticeable overhead.
 
-Given most journey planners return their results sorted by departure time, it's only necessary to compare journeys against other journeys departing at the same time or later.
+Given most journey planners return their results sorted by departure time, it's possible to reduce the number of journeys being compared as it's only necessary to compare journeys against other journeys departing at the same time or later.
 
 ```javascript
 // get journeys from our algorithm of choice
 const journeys = planner.getJourneys("10:00", "16:00");
-const earliestArrival = (a, b) => b.departureTime >= b.departureTime && b.arrivalTime < b.arrivalTime;
+const earliestArrival = (a, b) => b.arrivalTime < a.arrivalTime;
 const leastChanges = (a, b) => b.legs.length <= a.legs.length;
 const cheapest = (a, b) => b.price <= a.price;
 const criteria = [earliestArrival, leastChanges, cheapest];
