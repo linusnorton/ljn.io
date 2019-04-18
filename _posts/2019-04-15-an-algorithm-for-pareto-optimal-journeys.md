@@ -82,9 +82,11 @@ journeys.sort((a, b) => a.departureTime - b.departureTime);
 journeys.filter(paretoOptimalFilter);
 
 // check there is no subsequent journey that is better in every respect
-function paretoOptimalFilter(a, i, journeys) {
-  for (let j = i + 1; i < journeys.length; j++) {
-    if (journeys.some(b => criteria.every(fn => fn(a, b)))) {
+function paretoOptimalFilter(journeyA, i, journeys) {
+  for (let j = i + 1; j < journeys.length; j++) {
+    const journeyB = journeys[j];
+
+    if (criteria.every(fn => fn(journeyA, journeyB))) {
       return false;
     }
   }
