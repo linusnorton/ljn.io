@@ -1,21 +1,17 @@
 ---
-title: Node.js software architecture
-date: 2019-05-03 09:00:00
-lastmod: 2019-05-03 09:00:00
+title: Node.js software architecture and design
+date: 2019-05-13 09:00:00
+lastmod: 2019-05-13 09:00:00
 description: >-
   Blending the best of object orientated design into functional programming with node.js
 layout: post
 ---
 
-JavaScript was designed for the browser. What was originally small snippets of event driven UI code have evolved into full on pieces of software architecture like React and Angular.
-
-===
-One of the draws of node.js is that it opens up server side programming to front end developers, but the architectural patterns used in the browser are fundamentally different to a back end service. Combine a lot of developers with different backgrounds with JavaScript's immense flexibility and you'll soon realize that there is no common consensus on software architecture in the node.js world.
-===
+One of the main selling points of node.js is it's accessibility. Node.js opens up server side programming to front end developers, and while this is definitely a good thing it leads to a melting pot of ideas when it comes to software architecture. UI code running in the browser is fundamentally event driven and it's requirements are very different to an API, so some of the hoops you jump through on the back end might seem a bit alien at first.
 
 ## Dependency management
 
-One of the most common issues I see in the wider node.js community is a refusal to use any form of [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control). It's common to see dependencies imported directly into each function:
+One of the most common issues I see in the wider node.js community is not using any form of [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control). It's common to see dependencies imported directly into each function:
 
 ```javascript
 const express = require("express");
@@ -162,7 +158,7 @@ class User {
 }
 ```
 
-As the class is immutable it does not need getters or setters, it's just a data structure. This is known as an [Anemic Domain Model](https://martinfowler.com/bliki/AnemicDomainModel.html), which is highly discouraged by Martin Fowler. My justification is that adding lots of methods into an entity is not following the single responsibility principle. I prefer to keep all logic and rules in the other areas of the domain: Cases, Services, Events etc.
+As the class properties are read only the class does not need getters or setters, it's just a data structure. This is known as an [Anemic Domain Model](https://martinfowler.com/bliki/AnemicDomainModel.html), which is highly discouraged by Martin Fowler. My justification is that adding lots of methods into an entity is not following the single responsibility principle. I prefer to keep all logic and rules in the other areas of the domain: Cases, Services, Events etc.
 
 ```javascript
 class UserRegistrationService {
@@ -182,14 +178,51 @@ class UserRegistrationService {
 
 When I do use classes they tend to only have a single public method (single responsibility), this makes the practical difference between using pure functions and classes minimal. It's not a hard rule, sometimes it's convenient to have more than one public method, it's just a pattern I've noticed in my code.
 
+Anyone exposed to JavaScript is normally familiar with [higher order functions](https://en.wikipedia.org/wiki/Higher-order_function) through methods such as map, filter and reduce. I make extensive use of these methods in my code but mostly to manipulate low level data structures. I strive to ensure the code is still readable by splitting inline functions out into named functions and avoiding too many nested inline functions.
+
+I also try to avoid excessively long function chains, they are fun but after a point you forget what your epically long chain of functions is doing... or why:
+
+```javascript
+return inputs
+  .map(i => getResults(i))
+  .filter(results => results.length > 0)
+  .flat()
+  .map(result => getResultView(result))
+  .reverse()
+  .reduce((index, result) => {
+    index[result.id] = result;
+
+    return index
+  }, {});
+```
+
+## Shared state
+
 When writing back end services it quickly becomes apparent that shared mutable state is dangerous. Sharing resources like files and streams across multiple functions becomes a nightmare to debug as you don't know who changed what and when.
 
-I'm a strong believer that mutable state itself is not evil, but it must be encapsulated and hide from public view. I've discussed [tactics for encapsulating mutable state](./2019-01-31-encapsulating-mutable-state) before. My hard
-
-== MORE ==
+I'm a strong believer that mutable state itself is not evil, but it must be encapsulated and hide from public view. I've discussed [tactics for encapsulating mutable state](./2019-01-31-encapsulating-mutable-state) before. My rule of thumb is that any public method should always be callable multiple times, it should not have side effects that leave it in an incorrect state the next time it is called.
 
 ## Principles
 
-### Principles I don't find useful
+Principles don't necessarily dictate software architecture or design but they do guide it. In general I would say that I love principles, but I hate rules. One of the reasons I tend to reject [SOLID](https://en.wikipedia.org/wiki/SOLID) is that a set of principles people often try to implement as rules, disregarding the context they are being applied in. I also feel that SOLID is a bit of a forced acronym and some elements are vastly more important than others:
 
-### Principles I do find useful
+- **Single responsibility** - important, but slightly ambiguous as to what you define as a responsibility
+- **Open-closed principle** - irrelevant as you [should not be using inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance).
+- **Liskov subsitution** - also irrelevant for the same reason
+- **Interface segregation** - partially a Java specific problem and it violates [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it)
+- **Dependency inversion** - important
+
+In general I would say that SOLID is more relevant in the Java world with a stricter adherence to object orientated programming and an over-reliance on inheritance to re-use code.
+
+The principles that I find are actually useful in the node.js world are:
+- **encapsulation of complexity** - neat abstractions, presenting a nice public interface
+- **encapsulation of state** - this removes a whole class of errors
+- **composition** - if you want to re-use code, pass it in as a dependency. This makes it more testable and more flexible
+- **the principle of least power** - readability is a primary concern, where possible you should make your code understandable to the widest  audience possible
+- **[YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it)** - not just important to reduce the amount of code you write, but to also reduce the amount other people have to read
+
+## Object orientated vs functional
+
+As I alluded to earlier, I think people get too hung up on object orientated vs functional programming. You can apply almost all the functional programming principles in an object orientated language, if you want to. What you will find is that the same design choices will arise no matter what style you choose: how do you manage your dependencies? How do you encapsulate your logic? How do you re-use logic?
+
+A good architecture should solve those problems.
