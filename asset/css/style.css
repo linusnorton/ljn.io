@@ -105,3 +105,11 @@ pre {
     margin-right: auto;
     width: 40%;
 }
+
+.width600 {
+  width: 600px;
+}
+
+.width800 {
+  width: 800px;
+}

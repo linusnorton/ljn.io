@@ -3,13 +3,13 @@ title: CSA Workarounds
 date: 2019-07-01 09:00:00
 lastmod: 2019-07-01 09:00:00
 description: >-
-  The connection scan algorithm is easy to implement does not always produce logical results. This post presents two methods of improving the quality of results
+  The connection scan algorithm is easy to implement but does not always produce optimal results. This post presents two methods of improving the quality of results
 layout: post
 ---
 
-The [Connection Scan Algorithm](https://arxiv.org/abs/1703.05997) (CSA) is one of the easiest journey planning algorithms to implement. All journeys are broken down into their component parts: connections between two stations that depart and arrive at specific times. Then it's simply a case of iterating through every connection and mapping out the earliest arrival time at each stop.
+The [Connection Scan Algorithm](https://arxiv.org/abs/1703.05997) (CSA) is one of the easier journey planning algorithms to implement. All journeys are broken down into their component parts: connections between two stations that depart and arrive at specific times. Then it's simply a case of ordering connections by arrival time, iterating through them and mapping out the earliest arrival time at each stop.
 
-However, this simplicity has a cost. Journeys often have an unnecessary number of changes in them as the algorithm has no concept of number of changes, just the earliest arrival time at a given stop.
+However, this simplicity has a cost. Journeys often have an unnecessary number of changes in them as the algorithm only tracks the earliest arrival time at a given stop.
 
 Given a journey from A to D and the following trips:
 
@@ -20,6 +20,8 @@ Trip3 = A@10:15, B@10:20, C@10:30, D@11:00
 ```
 
 The Connection Scan Algorithm will create a journey involving two changes: Trip1 for A->B, Trip2 for B->C and Trip3 for C->D rather than just putting the passenger on Trip3. The algorithm will always aim for the earliest arrival time at any stop, despite this resulting in a high number of changes and a longer journey time.
+
+![csa-journeys](/asset/img/csa-workarounds/1.mmd.svg){: .center .width600 }
 
 # Solving the simple case
 
@@ -37,6 +39,8 @@ Trip4 = B@11:15, C@11:20, D@11:30, E@12:00
 ```
 
 The CSA algorithm will construct a journey of: Trip1 for A->B, Trip2 for B->C, Trip3 for C->D and Trip4 for D->E. Incrementing the departure time will not affect the results as the only way to get from A->B is on Trip1.
+
+![csa-journeys](/asset/img/csa-workarounds/2.mmd.svg){: .center .width800 }
 
 # Solving a more complicated case
 
@@ -61,7 +65,7 @@ for (let i = legs.length - 1; i >= 0; i--) {
   }
 
   // only add the new leg after the loop as multiple legs may be replaced
-  newLegs.push(newLeg)
+  newLegs.push(newLeg);
 }
 ```
 

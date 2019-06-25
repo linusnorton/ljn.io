@@ -1,0 +1,38 @@
+graph LR
+
+    A1(A)
+    B1(B)
+
+    B2(B)
+    C2(C)
+
+    B3(B)
+    C3(C)
+    D3(D)
+
+    B4(B)
+    C4(C)
+    D4(D)
+    E4(E)
+
+    subgraph Trip4
+      B4-->|11:20|C4
+      C4-->|11:30|D4
+      D4-->|12:00|E4
+    end
+
+    subgraph Trip3
+      B3-->|11:15|C3
+      C3-->|11:20|D3
+      D3-->|change|D4
+    end
+
+    subgraph Trip2
+      B2-->|11:05|C2
+      C2-->|change|C3
+    end
+
+    subgraph Trip1
+      A1-->|11:00|B1
+      B1-->|change|B2
+    end
