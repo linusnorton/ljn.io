@@ -1,7 +1,7 @@
 
 # Site details
 lang: en
-host: localhost
+host: ljn.io
 
 # Author Details
 author:
@@ -28,4 +28,3 @@ plugins:
    - jekyll-gist
    - jekyll-youtube
 highlighter: rouge
-  
