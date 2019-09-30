@@ -1,0 +1,18 @@
+.logo {
+    background: transparent url($logo) no-repeat left center;
+    display: inline-block;
+    transition: all 0.3s;
+    max-width: 100%;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &-footer {
+        background-image: url($logo-rev-mini);
+
+        @media ($screen-tablet) {
+            background-image: url($logo-rev);
+        }
+    }
+}

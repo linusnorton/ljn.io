@@ -1,18 +1,42 @@
----
-layout: page
----
-<br>
-<div class="container card post">
-<br>
-<h1>{{page.title}}</h1>
-<hr>
-{{content}}
+{% assign sectionLink = section[1] | prepend: '/' %}
 
-<hr/>
+<!DOCTYPE html>
+<html lang="{{site.lang}}">
+{% include head.html %}
+<body id="top" class="no-js">
+    <div class="container-wide">
+        {% include header.html %}
 
-<p>
-    If you enjoyed this post,
-    <a href="mailto:{{site.author.email}}?subject={{page.title}}">let me know</a>.
-</p>
-</div>
-<br>
+        <main>
+            {% include hero-sub.html %}
+
+            <section class="articles">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-16 offset-lg-4 col-xl-14 offset-xl-5">
+                            <div class="article-detail">
+                                {% if page.date %}
+                                    <p class="article-date">
+                                        Published {{ page.date | date: '%d %B %Y' }}
+                                    </p>
+                                {% endif %}
+                                {{ content }}
+                            </div>
+                            <div class="article-back">
+                                <a class="btn btn-primary" href="{{ sectionLink }}">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        {% include footer-sub.html %}
+    </div>
+
+    <script src="/assets/js/jquery-3.3.1.min.js" defer></script>
+    <script src="/assets/js/script.js" defer></script>
+    <script src="/assets/js/slick.js" defer></script>
+</body>
+
+</html>

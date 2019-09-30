@@ -1,0 +1,112 @@
+.article {
+    &-list {
+        text-align: center;
+
+        @media ($screen-tablet) {
+            text-align: left;
+        }
+
+        &__item {
+            margin-bottom: 20px;
+            padding: 30px;
+            background-color: $color-white;
+            box-shadow: 0 3px 25px 5px rgba($color-primary, 0.08);
+
+            @media ($screen-tablet) {
+                margin-bottom: 40px;
+            }
+        }
+
+        &__title {
+            margin-bottom: 5px;
+
+            @media ($screen-tablet) {
+                margin-top: 0;
+            }
+        }
+
+        &__time {
+            font-style: italic;
+            margin-bottom: 5px;
+            display: block;
+
+            @media ($screen-tablet) {
+                margin-bottom: 15px;
+            }
+        }
+
+        &__short {
+            margin-bottom: 15px;
+
+            @media ($screen-tablet) {
+                margin-bottom: 25px;
+            }
+        }
+
+        &__url {
+            color: $color-primary;
+
+            &:hover, &:focus, &:active {
+                color: $color-tertiary;
+                text-decoration: none;
+            }
+        }
+
+        &__image {
+            @media ($screen-tablet) {
+                margin-top: 10px;
+            }
+        }
+    }
+
+    &-detail {
+        a {
+            color: $color-tertiary;
+            @include get-font(Medium);
+
+            &:hover, &:active, &:focus {
+                text-decoration: underline;
+                color: $color-primary;
+            }
+        }
+
+        iframe {
+            max-width: 100%;
+        }
+
+        .article-image {
+            @media ($screen-tablet) {
+                width: 75%;
+                margin: 0 auto;
+            }
+        }
+
+        .article-headline {
+            font-size: 20px;
+            @include get-font(Medium);
+            line-height: 34px;
+            padding-left: 20px;
+            margin-bottom: 50px;
+
+            @media ($screen-laptop) {
+                font-size: 22px;
+                line-height: 37px;
+                padding-left: 30px;
+                border-left: solid 4px $color-font;
+            }
+        }
+
+        .article-date {
+            font-size: 14px;
+            border-bottom: solid 1px lighten($color-font, 55%);
+            padding-bottom: 10px;
+            margin-bottom: 50px;
+        }
+    }
+
+    &-back {
+        margin-top: 60px;
+        padding-top: 60px;
+        border-top: solid 2px $color-tertiary;
+    }
+}

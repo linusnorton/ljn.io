@@ -1,0 +1,33 @@
+<section class="articles">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-18 offset-lg-3">
+        <ul class="article-list list-unstyled">
+          {% for project in site.projects %}
+            <li class="article-list__item">
+              <article class="article clearfix" itemscope="itemscope" itemtype="http://schema.org/Article">
+                <div class="row">
+                    {% if project.image %}
+                      <div class="col-md-8">
+                        <img class="article-list__image img-responsive" src="{{ project.image }}" />
+                      </div>
+                    {% endif %}
+                    <div class="col-md-16 col-lg-15 offset-lg-1">
+                      <header>
+                        <h2 class="article-list__title">
+                          <a class="article-list__url" href="{{project.url}}">{{project.title}}</a>
+                        </h2>
+                      </header>
+                      <div class="article-list__short" itemprop="description">
+                        {{ project.description }}
+                      </div>
+                      <a class="btn btn-primary btn-mini" href="{{project.url}}">View project</a>
+                    </div>
+              </article>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
