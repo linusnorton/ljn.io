@@ -7,8 +7,12 @@
         height: 54px;
         max-width: 80%;
 
-        h1 {
-            margin: 2px 0 0 65px;
+        span {
+            margin: 10px 0 0 65px;
+
+            @media ($screen-tablet) {
+                margin: 2px 0 0 65px;
+            }
         }
     }
 

@@ -10,9 +10,24 @@
 
     &-footer {
         background-image: url($logo-rev-mini);
+    }
+
+    span {
+        display: inline-block;
+        font-family: $font-header;
+        line-height: 1.2;
+        color: $color-primary;
+        font-weight: normal;
+
+        font-size: 28px;
 
         @media ($screen-tablet) {
-            background-image: url($logo-rev);
+            font-size: 40px;
+        }
+
+        &.rev {
+            color: $color-white;
         }
     }
+
 }

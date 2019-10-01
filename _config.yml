@@ -17,7 +17,9 @@ exclude:
 - README.md
 - vendor/
 - CNAME
-permalink: /blog/:title
+- .idea/
+- .git/
+permalink: /posts/:title
 excerpt_separator: <!--more-->
 autoprefixer:
   browsers:
