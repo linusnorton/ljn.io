@@ -64,7 +64,7 @@
             color: $color-tertiary;
             @include get-font(Medium);
 
-            &:hover, &:active, &:focus {
+            &:hover, &:active, &:focus, &:visited {
                 text-decoration: underline;
                 color: $color-primary;
             }

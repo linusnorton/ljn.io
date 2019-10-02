@@ -2,7 +2,7 @@
 title: Linus Norton
 email: linusnorton@gmail.com
 description: >-
-  Linus Norton, developer, tech lead and blogger
+  Linus Norton, developer and tech lead based in London.
 baseurl: ""
 url: "https://ljn.io/"
 lang: "en"
@@ -26,3 +26,4 @@ autoprefixer:
   - last 2 versions
 sass:
   style: compressed
+highlighter: rouge

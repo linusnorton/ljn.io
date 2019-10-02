@@ -35,3 +35,5 @@ gem "jekyll-minifier", "~> 0.1.6"
 gem 'jekyll-youtube'
 
 gem 'jekyll-gist'
+
+gem 'rouge'

@@ -98,6 +98,7 @@ DEPENDENCIES
   jekyll-minifier (~> 0.1.6)
   jekyll-youtube
   minima (~> 2.0)
+  rouge
   tzinfo-data
 
 BUNDLED WITH
