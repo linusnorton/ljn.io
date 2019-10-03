@@ -49,7 +49,25 @@ a {
     text-decoration: none;
 }
 
+.rev a, .rev a:visited {
+    color: $color-white;
+    font-weight: bold;
+}
+
 .container-wide {
     max-width: 1920px;
     margin: 0 auto;
+}
+
+.social-ico {
+    font-family: "Socialico-Regular";
+}
+.social-ico-plus {
+    font-family: "SocialicoPlus-Plus";
+}
+
+.social-ico, .social-ico-plus {
+    display: block;
+    float: left;
+    margin: 3px 5px 0 0;
 }

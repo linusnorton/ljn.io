@@ -2,6 +2,10 @@
     color: $color-primary;
     @include get-font(Medium);
 
+    .social-ico, .social-ico-plus {
+        font-size: 36px;
+    }
+
     a {
         font-size: 16px;
         color: $color-primary;

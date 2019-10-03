@@ -1,16 +1,17 @@
 .overview {
     padding-top: 20px;
-    padding-bottom: 140px;
+    padding-bottom: 50px;
 
     @media ($screen-tablet) {
         padding-top: 40px;
-        padding-bottom: 270px;
+        padding-bottom: 100px;
     }
 
     @media ($screen-laptop) {
         padding-top: 60px;
-        padding-bottom: 290px;
+        padding-bottom: 120px;
     }
+
 }
 
 .whatis {
