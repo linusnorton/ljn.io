@@ -18,7 +18,7 @@ It's a common misconception that node.js is single-threaded. The truth is that t
 
 Using this knowledge we can shape our application to look like it is working in parallel by executing multiple asynchronous code blocks at the same time. I commonly use this when loading data out of a database, but it's equally applicable for things like multiple HTTP requests.
 
-```
+```javascript
 const [data1, data2, data3] = await Promise.all([
   someAsyncDataLoading1(),
   someAsyncDataLoading2(),
@@ -31,7 +31,7 @@ The code above will execute `someAsyncDataLoading1()` until an asynchronous call
 
 You can have async/await blocks inside each function call, so `someAsyncDataLoading1()` might look like:
 
-```
+```javascript
 async function someAsyncDataLoading1() {
   const rows = await query("SELECT * FROM table");
 
@@ -47,7 +47,7 @@ Being aware of how asynchronous code works under the hood allows us to maximize 
 
 In JavaScript logical operators are evaluated from left to right (like all other languages) and they `short-circuit`, meaning that when the outcome of a logical statement has been decided execution stops. For example:
 
-```
+```javascript
 const alwaysTrue = () => true;
 const alwaysFalse = () => false;
 
@@ -59,7 +59,7 @@ When `resultA` is evaluated `alwaysTrue()` returns true, as `true || any` is alw
 
 It's important to bear this in mind when constructing if statements. In this example:
 
-```
+```javascript
 const fastFunction = () => ...;
 const normalFunction = () => ...;
 const slowFunction = () => ...;
@@ -81,7 +81,7 @@ Internally, V8 has many types of array but they fall in to one of two categories
 
 A holey array is "sparse" and has gaps in between elements, whereas packed arrays have no gaps.
 
-```
+```javascript
 const sparse = [];
 sparse[10] = "a";
 sparse[15] = "b";
@@ -99,7 +99,7 @@ Always try to use a packed array where possible as there are many optimizations 
 
 Depending on how you create your array, it's type my be converted between holey and packed, but this has a cost and should also be avoided. This example, shamelessly lifted from [V8's blog](https://v8project.blogspot.co.uk/2017/09/elements-kinds-in-v8.html), demonstrates the conversions:
 
-```
+```javascript
 const array = new Array(3);
 // The array is sparse at this point, so it gets marked as
 // `HOLEY_SMI_ELEMENTS`, i.e. the most specific possibility given
@@ -118,14 +118,14 @@ array[2] = 'c';
 If you need to index values that are non sequential you should use an object:
 
 
-```  
+```javascript
 const index = {};
 
 index["10"] = "a";
 index["15"] = "b";
 index["50"] = "c";
 
-const index2 {
+const index2 = {
   "10": "a",
   "15": "b",
   "50": "c"
@@ -140,7 +140,7 @@ With the rise of functional programming in the JavaScript world many people are 
 
 Taking an example of `push()` vs `concat()`:
 
-```
+```javascript
 const mutable = [];
 let immutable = [];
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -182,7 +182,7 @@ Memoization is handy technique where the return value of a function can be cache
 
 Another way to trade CPU time for memory is to convert arrays into objects to avoid scanning every element:
 
-```
+```javascript
 const items = ["apple", "pear", "banana", ...];
 const index = items.reduce((p, c) => {
   p[c] = true;

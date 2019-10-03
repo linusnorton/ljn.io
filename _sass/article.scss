@@ -60,6 +60,8 @@
     }
 
     &-detail {
+        font-size: 17px;
+
         a {
             color: $color-tertiary;
             @include get-font(Medium);

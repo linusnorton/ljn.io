@@ -117,4 +117,4 @@ After grappling with these limitations I did finally reach a sort of zen, or at 
 
 You have to think very hard about storage and memory constraints. You also have to build a lot of the scaffolding yourself, but hey, C was fun wasn't it?
 
-![flying-pig](/asset/img/solidity/flying-pig.jpg)
+![flying-pig](/asset/img/solidity/flying-pig.jpg){: .img-responsive }

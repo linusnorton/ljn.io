@@ -11,7 +11,7 @@ All node.js streams have an in-built back pressure system to prevent data buildi
 
 Under normal operation a stream will stop loading information from a source if the handler (or downward stream) is unable to keep up:
 
-```
+```javascript
 const fs = require("fs");
 const input = fs.createReadStream("in-file.txt", "utf8");
 
@@ -24,7 +24,7 @@ As `performSlowFunction` blocks the handler of the `data` event, the stream will
 
 Mixing in an asynchronous operation such as inserting into a database will disrupt the back pressure mechanism:
 
-```
+```javascript
 const fs = require("fs");
 const input = fs.createReadStream("in-file.txt", "utf8");
 let inserts = 0;
@@ -46,7 +46,7 @@ There are two ways to safely mix asynchronous code and streams.
 
 Node.js 10+ comes with experimental support for [async iterators](https://thecodebarbarian.com/getting-started-with-async-iterators-in-node-js). If you are happy to use an experimental feature, they are a simple, idiomatic way of keeping back pressure while working with asynchronous streams:
 
-```
+```javascript
 const fs = require("fs");
 const input = fs.createReadStream("in-file.txt", "utf8");
 let inserts = 0;
@@ -70,7 +70,7 @@ There is a performance penalty to pay with async iterators as both the handling 
 
 If you do not wish to use an experimental feature, the best way to safely process the asynchronous code is to encapsulate it inside a custom `Transform` or `Writable` stream so that the back pressure can be managed manually:
 
-```
+```javascript
 const fs = require("fs");
 const Writable = require("stream").Writable;
 const input = fs.createReadStream("in-file.txt", "utf8");

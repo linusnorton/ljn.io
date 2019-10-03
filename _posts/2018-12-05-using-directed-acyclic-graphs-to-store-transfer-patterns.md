@@ -88,7 +88,7 @@ C  D
 
 There is no strict definition for the best way to represent a DAG, as such it can be represented in many ways. A [tree](https://en.wikipedia.org/wiki/Tree_(data_structure)) can be used to represent a top down view, starting at the root node (A) and traversing down to the leaves:
 
-```
+```javascript
 const tree = [
   {
     label: "A",
@@ -107,7 +107,7 @@ const tree = [
 
 Alternatively, it can be represented from the bottom up using a [linked list](https://en.wikipedia.org/wiki/Linked_list) where the next element is a reference to the parent node. With this method each path becomes it's own unique list, but elements of the list a re-used to save memory:
 
-```
+```javascript
 const pathFromB = {
   label: "B",
   next: {
@@ -139,7 +139,7 @@ How the data structure is stored will depend on the application. In this case it
 
 Using the linked list it is possible to go directly to the leaf node (the destination) and follow all paths back to the root. As the graph is acyclic reaching the root node is guaranteed in the most efficient time possible.
 
-```
+```javascript
 // variables with & denote a reference
 const graph = {
   "A": [{ label: "A", next: null }],
@@ -178,7 +178,7 @@ const paths = graph["E"].map(node => getPath(node, []));
 
 During the generation of transfer patterns it's necessary to merge new patterns into the tree. There's no standard algorithm to merge DAGs because the algorithm will depend on the data structure used to store the DAG. For the example above, new paths are added to each node until a point is reached where the rest of the path already exists in the graph:
 
-```
+```javascript
 function merge([head, ...tail], results) {
   results[head] = results[head] || [];
 

@@ -36,11 +36,11 @@ Rule number one for any algorithm is having the right data structure. To illustr
 
 ### Graph Structure
 
-{% highlight text %}
+```
 Service1, A, B, 5
 Service1, B, C, 10
 Service2, A, C, 12
-{% endhighlight %}
+```
 
 One of the issues with the graph based data structure is getting it into that structure in the first place. The edge weight is equal to the arrival time at B – departure time at A. Calculating that on a data set of millions takes a bit of time. It’s definitely possible but then you have to backtrack from the path along the graph to the original timetable information and it becomes a bit of a conceptual mess.
 
@@ -48,7 +48,7 @@ One of the issues with the graph based data structure is getting it into that st
 
 A typical timetable schedule will typically consist of a service record that contains information like when the service runs from and to and what days of the week it operates. Linked to that are a set of calling points with departure and arrival times.
 
-{% highlight text %}
+```
 Service1, 2016-01-01, 2016-12-31, YYYYYNN
 A, null, 1000
 B, 1005, 1006
@@ -56,17 +56,17 @@ C, 1010, null
 Service2, 2016-01-01, 2016-07-31, YYYYYNN
 A, null, 1007
 C, 1012, null
-{% endhighlight %}
+```
 
 ### Connection Structure
 
 The Connection Scan Algorithm relies on something inbetween the two. A list of connections from origin to destination with a depature and arrival time.
 
-{% highlight text %}
+```
 Service1, A, B, 1000, 1005
 Service1, B, C, 1006, 1010
 Service2, A, C, 1007, 1012
-{% endhighlight %}
+```
 
 * Note, the actual CSA paper doesn’t have a concept of services but they are a very useful way to reduce the number of connections.
 
@@ -108,7 +108,7 @@ I didn’t quite know what to call this new planner but it looks up schedules so
 
 The data structure returned is a bit odd as many transfer patterns are mixed into a single result. I’ll extend our earlier example to include another service that involves a change at B in order to get to C.
 
-{% highlight text %}
+```
 TP1, TPL1, A, B, 1000, 1005, Service1
 TP1, TPL1, B, C, 1006, 1010, Service1
 TP2, TPL1, A, C, 1007, 1012, Service2
@@ -117,7 +117,7 @@ TP3, TPL2, B, C, 0940, 0950, Service4
 TP3, TPL2, B, C, 1006, 1010, Service1
 TP1, TPL1, A, B, 1100, 1105, Service5
 TP1, TPL1, B, C, 1106, 1110, Service5 
-{% endhighlight %}
+```
 
 TP1 and TP2 are quite simple as each subsequent connection is reachable. In TP1 we only have one service but it stops at B. TP2 is even simpler as it’s a direct service. It should be noted that we would actually return two results for TP1 as there is actually another service that goes at 1100. 
 

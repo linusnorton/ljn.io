@@ -12,7 +12,7 @@ When it comes to handling large amounts of data, streams are not only faster, bu
 
 Natively, node.js comes with three types of stream: `Readable`, `Writable`, and `Transform`. Streams are Event Emitters so the easiest way to use them is to hook into their events:
 
-```
+```javascript
 const fs = require("fs");
 const input = fs.createReadStream("in-file.txt", "utf8");
 
@@ -21,7 +21,7 @@ input.on("data", data => console.log(data));
 
 For many cases it's beneficial to connect streams together with pipes:
 
-```
+```javascript
 const fs = require("fs");
 const input = fs.createReadStream("in-file.txt");
 
@@ -34,7 +34,7 @@ One of the first questions I had when picking up streams was whether it is possi
 
 However, there is one difference between a stream and a standard Event Emitter: back pressure. When data is emitted from a `Readable` stream the listeners must declare that they have processed the data and are ready to receive more. This is a very useful feature as it prevents input streams clobbering output streams with too much information, but it does mean that you need to ensure all your listeners are processing the data. Take this example:
 
-```
+```javascript
 const fs = require("fs");
 const Writable = require("stream").Writable;
 const input = fs.createReadStream("in-file.txt");
@@ -58,7 +58,7 @@ If you ran the code above, you might notice that it doesn't quite do what you wo
 
 By default all stream chunks are a Buffer. If you specify an encoding type on the input stream then will arrive as strings:
 
-```
+```javascript
 const fs = require("fs");
 const input = fs.createReadStream("in-file.txt", "utf8");
 
@@ -67,7 +67,7 @@ input.on("data", chunk => console.log(chunk));
 
 But this is not enough to cover all cases. When implementing a `Writable` the chunk will always be a Buffer unless the `decodeStrings` option is set to false, or the stream is operating in `objectMode`.
 
-```
+```javascript
 const fs = require("fs");
 const Writable = require("stream").Writable;
 const input = fs.createReadStream("in-file.txt", "utf8");
@@ -88,7 +88,7 @@ input.pipe(consoleOutput);
 
 A common pattern with streams is to load data from a `Readable` source, process it and and then output it to a `Writable` destination. A `Transform` stream is the intermediary processing step that sits between input and output. It is both a `Readable` and `Writable` stream.
 
-```
+```javascript
 const fs = require("fs");
 const Transform = require("stream").Transform;
 const input = fs.createReadStream("in-file.txt", "utf8");
@@ -108,7 +108,7 @@ Notice that a `Transform` stream is a type of `Writable` stream so it requires t
 
 If we want to do something more useful that convert text to upper case it is likely we will need to use `objectMode`.
 
-```
+```javascript
 const fs = require("fs");
 const Transform = require("stream").Transform;
 const input = fs.createReadStream("in-file.txt", "utf8");
@@ -142,7 +142,7 @@ It's possible to filter streams using a `Transform`, but it's important to remem
 
 If the chunk should be removed from the stream trigger the callback with no arguments:
 
-```
+```javascript
 const fs = require("fs");
 const Transform = require("stream").Transform;
 const input = fs.createReadStream("in-file.txt", "utf8");

@@ -30,7 +30,7 @@ At the heart of functional programming is a belief that data is just data and th
 
 Let’s say we have an array of numbers and we want to get the square root of each of them. That’s pretty easy right?
 
-{% highlight javascript %}
+```javascript
 function sqrtAll (values) {
     for (var i in values) {
         values[i] = Math.sqrt(values[i]);
@@ -38,52 +38,52 @@ function sqrtAll (values) {
 
     return values;
 }
-{% endhighlight %}
+```
 
 This function mutates the state of the values array and returns the result, this has the potential to cause side effects and may lead to problems if other parts of the application contain references to the same array. It’s safer to return a new set of results. Using map we can return a new array of sqrt’d values. Map applies a given function over an array.
 
-{% highlight javascript %}
+```javascript
 function sqrtAll (values) {
     return map(Math.sqrt, values);
 }
-{% endhighlight %}
+```
 
 Not only is this fewer lines of code, it is “pure” and produces no side effects, but we can still do better.
 
-##Curry
+## Curry
 
 Functional currying is a way of partially applying a function. If that doesn’t help, think of it as a way of creating a new function based off an existing function with some arguments already supplied. Take this add function:
 
-{% highlight javascript %}
+```javascript
 function add (x, y) {
     return x + y;
 }
-{% endhighlight %}
+```
 
 We can curry it to make a new function called add5:
 
-{% highlight javascript %}
+```javascript
 var add5 = curry(add, 5);
 add5(2); // Gives 7
-{% endhighlight %}
+```
 
 On the surface of it this may seem fairly pointless, but it’s actually very powerful. Take our earlier example of `sqrtAll`, we can now define that as:
 
-{% highlight javascript %}
+```javascript
 var sqrtAll = curry(map, Math.sqrt);
-{% endhighlight %}
+```
 
 Here we are saying take the map function and preload it with the Math.sqrt so all that’s left to do is provide the array of values:
 
-{% highlight javascript %}
+```javascript
 sqrtAll([9,64]); // [3, 8]
-{% endhighlight %}
+```
 
 ## Recursion
 
 The join function takes an array of strings and joins them together with a separator. Here is a typical implementation:
 
-{% highlight javascript %}
+```javascript
 function join (values, separator) {
     var string = values.shift();
 
@@ -93,18 +93,18 @@ function join (values, separator) {
 
     return string;
 }
-{% endhighlight %}
+```
 
 We can also implement this using recursion:
 
-{% highlight javascript %}
+```javascript
 function join (separator, values) {
     return values.length === 1
             ? values[0]
             : values[0] + separator + join(separator, values.slice(1));
 
 }
-{% endhighlight %}
+```
 
 This function deals with two scenarios: it has reached the end of this list, in which case it just returns the value or it is not at the end and returns the next value + separator + the result of join with the rest of the array. This function will keep calling itself removing one from the array each time until it reaches the end.
 
@@ -112,7 +112,7 @@ This function deals with two scenarios: it has reached the end of this list, in 
 
 Reduce is a special case of recursion where a data structure (e.g. an array)  is reduced down to single value. For this example we will look at sum.
 
-{% highlight javascript %}
+```javascript
 function sum (values) {
     var total = 0;
 
@@ -124,24 +124,24 @@ function sum (values) {
 }
 
 var total = sum([1, 2, 3]); // 6
-{% endhighlight %}
+```
 
 The procedural version of this code looks much the same as our join function. The reduce function handles our recursion so all we need to do is the addition.
 
-{% highlight javascript %}
+```javascript
 function add (value, accumulator) {
     return value + accumulator;
 }
 
 var total = reduce(add, [1, 2, 3]); // 6
-{% endhighlight %}
+```
 
 Or when combined with curry:
 
-{% highlight javascript %}
+```javascript
 var sum = curry(reduce, add);
 var total = sum([1, 2, 3]); // 6
-{% endhighlight %}
+```
 
 In a normal reduce implementation it will be expecting 2 or 3 arguments; the function, the array and an optional accumulator (starting point). The function will be recursively called for each item in the array, each time receiving the value and current accumulated result.
 
@@ -149,16 +149,16 @@ In a normal reduce implementation it will be expecting 2 or 3 arguments; the fun
 
 Using compose we can chain together any number of functions to a new function. This is great if you need to perform a number of actions on the same dataset. Let’s take our earlier examples of `sqrtAll` and `sum`. If we want to get the total of the sqrt of each item in an array we could write:
 
-{% highlight javascript %}
+```javascript
 var squareRoots = sqrtAll([9, 64]);
 var total = sum(squareRoots);
-{% endhighlight %}
+```
 
 But it is much more concise to use compose:
 
-{% highlight javascript %}
+```javascript
 var total = compose(sum, sqrtAll)([9, 64]);
-{% endhighlight %}
+```
 
 This code reads very nicely, albeit from right to left. With this array, square root each item and sum the result.
 
@@ -170,7 +170,7 @@ All the examples so far have been fairly artificial to keep them short and to th
 
 jQuery ajax requests have callbacks for error and success handling. Quite often the we will want to provide some UI feedback based on the request result. Let’s say we want to display a dialog box with either an error message or a success message we could write it like this:
 
-{% highlight javascript %}
+```javascript
 // let’s start a loading icon
 startLoadingSpinner();
 
@@ -188,11 +188,11 @@ function displayError() {
     stopLoadingSpinner();
     showDialog('Oh no, error!');
 }
-{% endhighlight %}
+```
 
 Obviously the `displayError` and `displaySuccess` functions are very similar and need to be refactored to remove the duplicate code. Now we’ll use curry to tidy things up a bit:
 
-{% highlight javascript %}
+```javascript
 startLoadingSpinner();
 
 $.get('/api/endpoint', {
@@ -204,7 +204,7 @@ function requestComplete(message) {
     stopLoadingSpinner();
     showDialog(message);
 }
-{% endhighlight %}
+```
 
 ### Event Stream
 
@@ -212,7 +212,7 @@ In this scenario we have a list of events containing a type (create, edit, delet
 
 We can make a composite key of the date and type to remove duplicates.
 
-{% highlight javascript %}
+```javascript
 function reduceEvents(events) {
     var eventStream = {};
 
@@ -223,7 +223,7 @@ function reduceEvents(events) {
 
     return events;
 }
-{% endhighlight %}
+```
 
 Pretty easy right? Now let’s add a couple of complications:
 * The events are ordered by date descending (most recent first) and the current function keeps oldest event. We want to display the most recent event.
@@ -231,7 +231,7 @@ Pretty easy right? Now let’s add a couple of complications:
 
 Now we have:
 
-{% highlight javascript %}
+```javascript
 function reduceEvents (events) {
     var eventStream = {};
 
@@ -246,11 +246,11 @@ function reduceEvents (events) {
 
     return events.slice(0, 10);
 }
-{% endhighlight %}
+```
 
 This code is not complicated but to someone reading it for the first time it is not immediately obvious what is happening until they read the entire function. Using a few functional techniques we can make it more conscise and readable:
 
-{% highlight javascript %}
+```javascript
 
 var reduceEvent = curry(reduce, reduceEvent);
 var first10 = curry(slice, 10);
@@ -267,18 +267,18 @@ function reduceEvent (event, accumulator) {
 
     return accumulator;
 }
-{% endhighlight %}
+```
 
 What’s nice about this is that the reduceEvents function is much more descriptive. Rather than reading through the code we can just see what it is doing: with the events, do a reverse, reduce them, reverse them back and take the first 10. If you don’t like reading from right to left some libraries provide a chain function so it could be written as:
 
-{% highlight javascript %}
+```javascript
 return chain(events)
         .then(reverse)
         .then(reduceEvent)
         .then(reverse)
         .then(first10)
         .values();
-{% endhighlight %}
+```
 
 Speaking of libraries the examples here will work with [fun-js](https://github.com/briansorahan/fun-js) or [scoreunder](https://github.com/loop-recur/scoreunder) (if you add \_. to the function calls). [Underscore](http://underscore.org) is a great library but the ordering of parameters makes it [difficult to curry and compose](http://www.youtube.com/watch?v=m3svKOdZijA).
 

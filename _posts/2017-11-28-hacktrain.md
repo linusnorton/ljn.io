@@ -6,7 +6,7 @@ description: Thoughts on innovation in UK rail, the value of hackathons and my e
 layout: post
 ---
 
-![a different kind of rails](/asset/img/hacktrain/1.jpg)
+![a different kind of rails](/asset/img/hacktrain/1.jpg){: .img-responsive }
 
 I can say with absolute certainty that [HackTrain](http://hacktrain.com/) is unique within UK rail. There are many innovation events, some meetups and a few hackathons but nothing like HackTrain. This year over 120 participants on three separate trains made their way around Europe to compete in a 48 hour hackathon. It was every bit as awesome and chaotic as it sounds.
 
@@ -24,11 +24,7 @@ At the end of the day the conference participants went home and the hackathon pa
 
 As the participants were divided into their separate groups the hackathon challenges were explained by the mentors that set them. Deutsche Bahn set the challenge of using expected arrival times vs actual arrival times to predict future disruption. TfL encouraged participants to find a way to encourage more startups into their supply chain by offering them a way to navigate all the rules and regulations that apply. The DfT set a particularly fiendish challenge of trying to find a way to remove return fares without increasing the cost to the passenger, or, making use of huge subsidies. 
 
-<div class="pull-right" markdown="1" style="width: 500px; margin: 3px 15px">
-
-![not the best place to organise teams](/asset/img/hacktrain/2.jpg)
-
-</div>
+![not the best place to organise teams](/asset/img/hacktrain/2.jpg){: .img-responsive }
 
 As this was happening news of a disturbance at [Oxford Circus](http://www.bbc.co.uk/news/uk-42117311) started filtering through and the HackTrain team made a quick decision to set off to St Pancras earlier than originally planned. There was distinct sense of irony as we hopped on board a bus to begin our train hackathon.
 
@@ -44,11 +40,7 @@ But I digress...
 
 It was already quite late when we arrived in Paris so we headed straight to the hotel. A few brave people decided to venture out to bars or on bike rides but it was already late so I thought the best thing to do would be get some sleep. 
 
-<div markdown="1" style="float: left; width: 500px; margin: 3px 25px 3px 0">
-
-![it wasn't as scary as it looks](/asset/img/hacktrain/4.jpg)
-
-</div>
+![it wasn't as scary as it looks](/asset/img/hacktrain/4.jpg){: .img-responsive }
 
 As we hopped on board the train to Frankfurt the next morning I noticed that many of the teams were still struggling to decide what challenge they would undertake. I was a bit concerned so I asked River if we should hurry them along, being his 4th HackTrain he knew what to expect - “don’t worry they'll have it sorted by lunchtime” he said. 
 
@@ -56,11 +48,7 @@ He was right, by the time we’d arrived at the fantastic [Deutsche Bahn SkyDeck
 
 After a productive four hours at the SkyDeck it was time to head back to Paris. At this point the mentors were well and truly engaged with the participants, helping them understand the landscape and challenges with regulation. I was mostly involved with helping teams get and understand data. Not an easy area in rail, but I was amazed at how quickly the teams were able to take archaic formats and produce insightful graphs and visualisations. 
 
-<div class="pull-right" markdown="1" style="width: 500px; margin: 3px 15px">
-
-![back to Paris](/asset/img/hacktrain/6.jpg)
-
-</div>
+![back to Paris](/asset/img/hacktrain/6.jpg){: .img-responsive }
 
 That night we held the dragons den and got our first glimpse of what the participants were starting to produce. At this stage things were still very rough - there was a huge variation in the quality of ideas and presentation skills. Going through all 10 teams was a slog but we finally managed to get back to our hotel at about 3am. No hotel for the participants though, they had to work through the night.
 
@@ -88,16 +76,6 @@ While I don’t think anyone out there will claim that innovation in the rail in
 
 A huge thank you to River for inviting me to speak and mentor, Phoebe and the HackTrain team for organising, the other mentors, and of course, those brave and brilliant participants. 
 
-<div markdown="1" style="float: left; width: 510px">
+![bag boy](/asset/img/hacktrain/3.jpg){: .img-responsive }
 
-![bag boy](/asset/img/hacktrain/3.jpg)
-
-</div>
-
-<div class="pull-right" markdown="1" style="width: 510px">
-
-![amazing views from the SkyDeck](/asset/img/hacktrain/5.jpg)
-
-</div>
-
-<div class="clearfix"></div>
+![amazing views from the SkyDeck](/asset/img/hacktrain/5.jpg){: .img-responsive }

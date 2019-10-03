@@ -42,13 +42,13 @@ The Planar Network is a platform that provides retailers, operators and transpor
 
 By storing the network topology on the blockchain we can establish a number of trusted transport operators (Operators) that are permitted to offer Fares for transport between a subsection of the overall transport network. Each Operator can be assigned its geographical region by a transport authority (Authority). There may be many Authorities on the platform covering a wide range of modes and geographical regions.
 
-![topology](/asset/img/blockchain-transport/topology.png)
+![topology](/asset/img/blockchain-transport/topology.png){: .img-responsive }
 
 ### Ticket Creation
 
 After the Operators have setup their Fares a ticket retailer (Retailer) can execute a smart contract that turns a Fare into a Ticket stored on the blockchain. 
 
-![simple-contract](/asset/img/blockchain-transport/simple-contract.png)
+![simple-contract](/asset/img/blockchain-transport/simple-contract.png){: .img-responsive }
 
 As the smart contract is executed money is transferred from the Retailer to the Operator instantaneously. The smart contract is executed as an atomic transaction meaning it will either entirely fail or entirely succeed. There is no situation where the Ticket could be created without the necessary money being exchanged. As the blockchain is immutable it is also not possible to go back and change any of the details of a transaction that has taken place.
 
@@ -58,7 +58,7 @@ All Tickets stored on the blockchain belong to a wallet, in the case of a blockc
 
 Now that a process to create Tickets has been established, we can extend the smart contract to allow multiple Fares from a range of Operators. 
 
-![multi-contract](/asset/img/blockchain-transport/multi-contract.png)
+![multi-contract](/asset/img/blockchain-transport/multi-contract.png){: .img-responsive }
 
 The smart contract is still executed as a single transaction but the money from Retailer is split up and sent to each Operator according to the Fare they've provided. The details of all the Fares are stored in the Ticket on the blockchain. 
 
@@ -72,7 +72,7 @@ Using digital representations of fiat money allows us to bind the ticket creatio
 
 The retail experience for the customer is unchanged. The customer does not act directly on the blockchain, instead they act through Retailers' websites or apps using traditional means of transferring money such as card payments.
 
-![exchange](/asset/img/blockchain-transport/exchange.png)
+![exchange](/asset/img/blockchain-transport/exchange.png){: .img-responsive }
 
 ### Trust
 
@@ -86,7 +86,7 @@ Now that we've established a means to retail and create tickets we need to allow
 
 By adding a number of ticket distributors (Distributors) to the network we can implement a collection smart contract that turns a blockchain Ticket into one of networks native formats.
 
-![barcode-collection](/asset/img/blockchain-transport/barcode-collection.png)
+![barcode-collection](/asset/img/blockchain-transport/barcode-collection.png){: .img-responsive }
 
 Introducing a Ticket collection contract decouples ticket retailing and ticket distribution allowing the passenger to choose their ticket format up to the point of travel, rather than at time of purchase. It also removes the need for Retailers to understand the inner works of each ticket format. 
 
