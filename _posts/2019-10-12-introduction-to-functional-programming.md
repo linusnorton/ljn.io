@@ -12,9 +12,9 @@ This blog post serves as an accompanying article to the [introduction to functio
 
 # What makes programming functional?
 
-Functional programming is often thought of as an alternative to object oriented programming, but this is not strictly true. Functional programming is an alternative to [imperative programming](https://en.wikipedia.org/wiki/Imperative_programming) that aims to be declarative and more grounded in mathematics.
+Functional programming is often thought of as an alternative to object oriented programming, but this is not strictly true. Functional programming is an alternative to [imperative programming](https://en.wikipedia.org/wiki/Imperative_programming) that aims to be declarative and grounded in mathematics.
 
-An imperative program will modify the program state in the a computers memory to achieve the desired outcome. A functional program will apply a series of functions that transform data to the correct output. For example, an imperative function that returns the number of numbers in an array that are greater than 10 might look like this:
+An imperative program will modify the program state in the a computers memory to achieve the desired outcome. A functional program will apply a series of functions that transform data to achieve the correct output. For example, an imperative function that returns the number of numbers in an array that are greater than 10 might look like this:
 
 ```javascript
 function countGreaterThan10(numbers) {
@@ -42,7 +42,7 @@ This approach creates a new array of numbers with a value greater than 10 and th
 
 # Higher order functions
 
-One of the tenets of functional programming is that a function is just a type of data and so like any other data it can be passed to another function as an argument. When an function is passed to another function  it's often referred to as a higher order function.
+One of the tenets of functional programming is that a function is just a type of data and like any other data it can be passed to another function as an argument. When an function is passed to another function  it's often referred to as a higher order function.
 
 The functional example of `countGreaterThan10` makes use of a higher order function to filter the array before returning it's length. 
 
