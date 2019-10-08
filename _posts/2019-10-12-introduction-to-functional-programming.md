@@ -14,7 +14,7 @@ This blog post serves as an accompanying article to the [introduction to functio
 
 Functional programming is often thought of as an alternative to object oriented programming, but this is not strictly true. Functional programming is an alternative to [imperative programming](https://en.wikipedia.org/wiki/Imperative_programming) that aims to be declarative and grounded in mathematics.
 
-An imperative program will modify the program state in the a computers memory to achieve the desired outcome. A functional program will apply a series of functions that transform data to achieve the correct output. For example, an imperative function that returns the number of numbers in an array that are greater than 10 might look like this:
+An imperative program will modify the program's state in the computers memory to achieve the desired outcome. Whereas a functional program will apply a series of functions that transform data to the correct output. For example, an imperative function that returns the number of integers in an array that are greater than 10 might look like this:
 
 ```javascript
 function countGreaterThan10(numbers) {
@@ -38,25 +38,23 @@ function countGreaterThan10(numbers) {
 }
 ```
 
-This approach creates a new array of numbers with a value greater than 10 and then returns the length of that array. Not only is this approach a lot less lines of code but it's more declarative and arguably easier to read.
+This approach creates a new array of integers with a value greater than 10 and then returns the length of that array. Not only is this approach a lot less lines of code but it's more declarative and arguably easier to read.
 
 # Higher order functions
 
-One of the tenets of functional programming is that a function is just a type of data and like any other data it can be passed to another function as an argument. When an function is passed to another function  it's often referred to as a higher order function.
+One of the tenets of functional programming is that a function is just a type of data, and like any other data it can be passed to another function as an argument. When a function is passed to another function it's referred to as a higher order function.
 
 The functional example of `countGreaterThan10` makes use of a higher order function to filter the array before returning it's length. 
 
-Another common example of higher order functions is the `map` function. In order to get the square root of every number in an array an imperative program would iterate over the array and store the values in a new array:
+Another common example of higher order functions is the `map` function. In order to get the square root of every number in an array an imperative program would iterate over the array and calculate the values:
 
 ```javascript
-function sqrtAll(values) {
-  const result = [];
-  
-  for (const value of values) {
-    result.push(Math.sqrt(value));
+function sqrtAll(values) {  
+  for (const i in values) {
+    values[i] = Math.sqrt(value);
   }
 
-  return result;
+  return values;
 }
 ```
 
@@ -68,7 +66,7 @@ function sqrtAll(values) {
 }
 ```
 
-As with the previous example this is both more concise and more declarative. There's no internal state to mentally keep track off.
+As with the previous example this is both more concise and more declarative. One of the other benefits of this approach is that it is a pure function - it returns a new array rather than modifying one that is given to it.
 
 # Purity
 
@@ -80,7 +78,7 @@ Pure functions are incredibly easy to test, they take 0 or more inputs and retur
 
 ## Mutability
 
-Some functional programming languages do not allow any mutability at all, but that does not necessarily mean that all immutability is bad. Just that it should be [contained and encapsulated]() so that it doesn't affect other areas of the program.
+Some functional programming languages do not allow any mutability at all, but that does not necessarily mean that all immutability is bad. Just that it should be [contained and encapsulated](/posts/encapsulating-mutable-state) so that it doesn't affect other areas of the program.
 
 # Category theory and composition
 
@@ -93,7 +91,7 @@ One of the nice features of pure functions is that you can start reason about th
 This is idea is known as functional composition. One way of composing functions is to chain them together:
 
 ```javascript
-countGreaterThan10(sqrtAll(filterEven([1, 5, 10, 15, 20, 25])));
+const result = countGreaterThan10(sqrtAll(filterEven([1, 5, 10, 15, 20, 25])));
 ```
 
 But this approach quickly becomes unwieldy. Using the knowledge we have about category theory it is possible to make a function that will automatically combine many functions together into a single new function.
@@ -111,15 +109,15 @@ const numEvenAndSqrtGreaterThan10 = compose(
   countGreaterThan10
 );
 
-numEvenAndSqrtGreaterThan10([1, 5, 10, 15, 20, 25]);
+const result = numEvenAndSqrtGreaterThan10([1, 5, 10, 15, 20, 25]);
 ``` 
 
 The implementation of `compose` introduces another common functional idea: `reduce`. The `reduce` function abstracts away much of the boilerplate code often associated with iteration by simplifying it to a higher order function the takes the result so far, the current item in the array and then returns the result of applying the current item to the result so far. 
 
-This functional composition is such a common pattern that JavaScript is adopting a pipeline operator to better support it:
+Functional composition is such a common pattern that JavaScript is adopting a pipeline operator to better support it:
 
 ```javascript
-[1, 5, 10, 15, 20, 25] |> filterEven |> sqrtAll |> countGreaterThan10; 
+const result = [1, 5, 10, 15, 20, 25] |> filterEven |> sqrtAll |> countGreaterThan10; 
 ```
 
 ## Partial application (or currying)
@@ -139,11 +137,15 @@ function addToAll(amount, numbers) {
 
 const add100ToAll = curry(addToAll, 100);
 
-[1, 5, 10, 15, 20, 25] |> add100ToAll |> filterEven |> sqrtAll |> countGreaterThan10; 
+const result = [1, 5, 10, 15, 20, 25] 
+  |> add100ToAll 
+  |> filterEven 
+  |> sqrtAll 
+  |> countGreaterThan10; 
 ```
 
 # Where next
 
-Through practical examples we've looked at Higher Order Functions, Pure Functions, Composition, Currying and a little bit of Category Theory. Quite a tall order for an introduction, there is a lot more to explore behind each of these areas. Feel free to dig into each area in more detail but it's not necessary to get started with functional programming. Putting these ideas into practice will often highlight the path forward.
+Through practical examples we've looked at Higher Order Functions, Pure Functions, Composition, Currying and a little bit of Category Theory. Quite a tall order for an introduction, you won't be surprised to hear there is a lot more to explore behind each of these areas. Feel free to dig into each area in more detail but it's not necessary to get started with functional programming. Putting these ideas into practice will often highlight the path forward.
 
-I also have a post available about [refactoring from common imperative patterns to more functional ones]().
+I also have a post available about [refactoring from common imperative patterns to more functional ones](/posts/refactor-to-functional).
