@@ -7,8 +7,10 @@ description: >-
 layout: post
 ---
 
-This blog post serves as an accompanying article to the [introduction to functional programming]() talk given as part of Solirius' internal training. The [slides are also available online]().
+This blog post serves as an accompanying article to the [introduction to functional programming](https://youtu.be/488n8Pkqu6k) talk given as part of Solirius' internal training. The [slides are also available online](/asset/pdf/introduction-to-functional-programming/slides.pdf).
 {: .article-headline}
+
+<iframe width="800" height="450" src="https://youtube.com/embed/488n8Pkqu6k" frameborder="0" allowfullscreen></iframe>
 
 # What makes programming functional?
 
