@@ -8,13 +8,13 @@ layout: post
 
 Having studied graph theory at university and also having the misfortune of working in the rail industry building a journey planner has always been my holy grail of pet projects. It's a problem I've approached a number of times using different graph theory algorithms but I've never been able to produce something that worked in practice.
 
-In this post I'll run through some of the approaches I tried and how I eventually came to a successful implementation. Note that I'm just an amateur journey planner and I'd be interested in hearing some more from seasoned veterans. 
+In this post I'll run through some of the approaches I tried and how I eventually came to a successful implementation. Note that I'm just an amateur journey planner and I'd be interested in hearing some more from seasoned veterans.
 
 ## Graph Theory Algorithms
 
 All my early attempts were implementations of off the shelf graph theory algorithms that have been tried and tested for a number of years.
 
-[Dijsktra’s shortest path algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) is a commonly taught and widely used path finding algorithm. It’s useful because it works on a weighted graph and it’s simple to implement. Unfortunately converting a schedule of three or more months worth of train services creates a very large graph. 
+[Dijsktra’s shortest path algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) is a commonly taught and widely used path finding algorithm. It’s useful because it works on a weighted graph and it’s simple to implement. Unfortunately converting a schedule of three or more months worth of train services creates a very large graph.
 
 Running Dijkstra’s algorithm on a large, dense graph is slow and memory intensive. There are techniques  to construct a graph of a subset of the entire schedule, taking just the relevant parts but the time required to do this makes real time journey planning impractical.
 
@@ -72,7 +72,7 @@ Service2, A, C, 1007, 1012
 
 ### Conversion
 
-In order to apply the CSA we need to convert our GTFS timetable structure to a list of connections. Pieter Colpaert has written a [tool to do just that](https://github.com/linkedconnections/gtfs2lc) but I just used a rather [dirty MySQL query](https://github.com/linusnorton/journey-planner/blob/master/bin/import-data#L47) (improvements welcome!). 
+In order to apply the CSA we need to convert our GTFS timetable structure to a list of connections. Pieter Colpaert has written a [tool to do just that](https://github.com/linkedconnections/gtfs2lc) but I just used a rather [dirty MySQL query](https://github.com/linusnorton/journey-planner/blob/master/bin/import-data#L47) (improvements welcome!).
 
 ## Implementing the Connection Scan Algorithm
 
@@ -80,25 +80,25 @@ Now we have the data we need in the format we need it we can implement the CSA. 
 
 Done that? Great. It’s still slow isn’t it?
 
-Despite the CSA being hyped as a very quick algorithm it still takes a bit of time on a full data set. The UK timetable data which was about 3 months worth of train services between 2,500 stations. It wasn't a huge dataset, about 2.7 million rows, but the CSA still loads and iterates all the connections until it reaches the destination. Initially my PHP implementation was taking about 30 seconds. There are a lot of tweaks you can make to improve the performance. 
+Despite the CSA being hyped as a very quick algorithm it still takes a bit of time on a full data set. The UK timetable data which was about 3 months worth of train services between 2,500 stations. It wasn't a huge dataset, about 2.7 million rows, but the CSA still loads and iterates all the connections until it reaches the destination. Initially my PHP implementation was taking about 30 seconds. There are a lot of tweaks you can make to improve the performance.
 
-The key idea is to prune the number of connections you need to scan. I tried two approaches to this; one was to remove any connections before my target departure time. This is quick and easy and works well for journeys towards the end of the day, but does nothing for those at the beginning. The other approach was to create a minimum spanning tree of the shortest possible time between every station. Once you have that you can eliminate all services that depart before you'd be able to arrive. I created the minimum spanning tree by loading the fastest connections between every station to make a graph and then applied Dijkstra's shortest path algorithm. 
+The key idea is to prune the number of connections you need to scan. I tried two approaches to this; one was to remove any connections before my target departure time. This is quick and easy and works well for journeys towards the end of the day, but does nothing for those at the beginning. The other approach was to create a minimum spanning tree of the shortest possible time between every station. Once you have that you can eliminate all services that depart before you'd be able to arrive. I created the minimum spanning tree by loading the fastest connections between every station to make a graph and then applied Dijkstra's shortest path algorithm.
 
-And…… still slow. 
+And…… still slow.
 
 Yes, after all that things are getting quicker but there is another key problem. We’re only returning a single journey planning result per query. Most websites out there will return about 8 or so results in each direction.
 
 ## Transfer Patterns
 
-At this point I was starting to get a bit demoralised. I'd taken the very latest in super-fast journey planning algorithms and still couldn’t make it work well. 
+At this point I was starting to get a bit demoralised. I'd taken the very latest in super-fast journey planning algorithms and still couldn’t make it work well.
 
-Luckily, I stumbled across Hannah Bast's work on transfer patterns (also covered on Hacker News and a Google Blog post). Before I'd even read the paper I saw the words "transfer pattern" and knew roughly what to do. 
+Luckily, I stumbled across Hannah Bast's work on transfer patterns (also covered on Hacker News and a Google Blog post). Before I'd even read the paper I saw the words "transfer pattern" and knew roughly what to do.
 
 It described a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph. This means when a real-time query comes in we can just look up the schedule that matches that journey.”
 
 To do this we need to track all the changes required to make a journey in two additional data structures - a transfer pattern and a transfer pattern leg. The transfer pattern stores the origin and destination of the journey and links to many transfer pattern legs that have the origin and destination for each leg.
 
-If we are doing a journey from A to C we would query all the possible transfer patterns there are to do that journey. For instance there might be a tranfer pattern with two legs: A→B, B→C and another with a single leg: A→C. 
+If we are doing a journey from A to C we would query all the possible transfer patterns there are to do that journey. For instance there might be a transfer pattern with two legs: A→B, B→C and another with a single leg: A→C.
 
 Now we just need to look up services that go from A→B, B→C and A→C and weave that information back into some actual journey plans.
 
@@ -116,10 +116,10 @@ TP3, TPL1, A, B, 0930, 0950, Service3
 TP3, TPL2, B, C, 0940, 0950, Service4
 TP3, TPL2, B, C, 1006, 1010, Service1
 TP1, TPL1, A, B, 1100, 1105, Service5
-TP1, TPL1, B, C, 1106, 1110, Service5 
+TP1, TPL1, B, C, 1106, 1110, Service5
 ```
 
-TP1 and TP2 are quite simple as each subsequent connection is reachable. In TP1 we only have one service but it stops at B. TP2 is even simpler as it’s a direct service. It should be noted that we would actually return two results for TP1 as there is actually another service that goes at 1100. 
+TP1 and TP2 are quite simple as each subsequent connection is reachable. In TP1 we only have one service but it stops at B. TP2 is even simpler as it’s a direct service. It should be noted that we would actually return two results for TP1 as there is actually another service that goes at 1100.
 
 For TP3 we have a change of service at B. We initially depart earlier than the other services using Service3 but don’t quite make it to B in time to catch Service4. This means we catch Service1. In this case we depart much earlier but end up arriving at the same time as we would using TP1.
 
@@ -127,7 +127,7 @@ The result we’ve found for TP3 isn't as good as the other two so we may as wel
 
 ## Filtering results
 
-Using the schedule planner will return results for every available transfer pattern regardless of how good they are so it makes sense to do a bit of sanity checking. A simple filter to apply is to remove all services that depart at the same time as another but arrive later, or arrive at the same time as another but depart earlier. In other words, journeys that are slower and share a departure and arrival time with another journey. 
+Using the schedule planner will return results for every available transfer pattern regardless of how good they are so it makes sense to do a bit of sanity checking. A simple filter to apply is to remove all services that depart at the same time as another but arrive later, or arrive at the same time as another but depart earlier. In other words, journeys that are slower and share a departure and arrival time with another journey.
 
 This approach is a bit naive as those services may be cheaper, or better in other ways but for now it does a nice job.
 
@@ -140,19 +140,19 @@ In order to make this more palatable I modified my implementation of the Connect
 It’s also the type of work that can be done in parallel. Each station can be processed individually allowing you to run 2500 parallel jobs. It could be expanded further but I didn’t have that many cores available.
 On a reasonably fast consumer PC this processing takes about 6-8 hours. One thing I was surprised by was that the number of transfer patterns kept increasing well beyond what I thought would be the point of diminishing returns. It turns out that this Sunday often looks very different to a Sunday next month as things like engineering works get scheduled in at late notice.
 
-At this point I had roughly 100 million different transfer patterns and 500 million transfer pattern legs. I mentioned that to someone with a commercial journey planner and they did laugh so I’m sure I’ve done something slightly wrong but it doesn’t seem to matter. The results are good, and at last, they are fast. 
+At this point I had roughly 100 million different transfer patterns and 500 million transfer pattern legs. I mentioned that to someone with a commercial journey planner and they did laugh so I’m sure I’ve done something slightly wrong but it doesn’t seem to matter. The results are good, and at last, they are fast.
 
 Using the schedule planner allows us return a full days worth of results in milliseconds. My PHP/MySQL implementation takes about 50-150ms depending on the number of transfer patterns and length of the route. An implementation in a more performant language could do better although the bulk of the time is the SQL query to return the schedules.
 
 ## Results
 
-At this point I finally had a journey planner that worked. It wasn’t long before I started to notice quite a few odd results though. 
+At this point I finally had a journey planner that worked. It wasn’t long before I started to notice quite a few odd results though.
 
-The Connection Scan Algorithm is fundamentally geared towards optimizing arrival time and this causes a few bits of odd behaviour where journeys with multiple changes are favoured over journeys with fewer changes just because they arrive slightly sooner or even at the same time. 
+The Connection Scan Algorithm is fundamentally geared towards optimizing arrival time and this causes a few bits of odd behaviour where journeys with multiple changes are favoured over journeys with fewer changes just because they arrive slightly sooner or even at the same time.
 
 I created a modified version of the [Connection Scan Algorithm that favours journeys with fewer changes](https://github.com/linusnorton/journey-planner/blob/master/lib/Algorithm/MinimumChangesConnectionScanner.php) and also made sure that for my filtering algorithm the tie breaker between two journeys was the one with the fewest changes.
 
-The results are still sub-optimal in some cases as there can be many places you can change along a route where two services run in parellel. Ideally the journey planner should either pick the largest station or change you at the last possible moment, by default the CSA will change services as soon as possible. That determines the transfer pattern which then determines the journey the schedule planner creates.
+The results are still sub-optimal in some cases as there can be many places you can change along a route where two services run in parallel. Ideally the journey planner should either pick the largest station or change you at the last possible moment, by default the CSA will change services as soon as possible. That determines the transfer pattern which then determines the journey the schedule planner creates.
 
 ## Notes and future work
 
