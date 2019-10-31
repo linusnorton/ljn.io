@@ -7,12 +7,12 @@ description: >-
 layout: post
 ---
 
-The concept behind [Hannah Bast's transfer patterns]() is brilliantly simple: pre-calculate all the points a passenger may need to change for every possible journey in the network and perform real-time queries by linking together these points for specific times. The original paper suggests using [Dijkstra Algorithm]() to reconstitute journeys from transfer patterns but does not go in to much detail, so let's have a look at how we can implement a journey planner based on transfer patterns.
+The concept behind [Hannah Bast's transfer patterns](https://ad.informatik.uni-freiburg.de/files/transferpatterns.pdf) is brilliantly simple: pre-calculate all the points a passenger may need to change for every possible journey in the network and perform real-time queries by linking together these points for specific times. The original paper suggests using [Dijkstra Algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) to reconstitute journeys from transfer patterns but does not go in to much detail, so let's have a look at how we can implement a journey planner based on transfer patterns.
 {: .article-headline}
 
 # A simple approach
 
-Given a number of transfer patterns for a journey `A→E`:
+There are [a number of ways to store transfer patterns](https://ljn.io/posts/using-directed-acyclic-graphs-to-store-transfer-patterns) but for the initial approach it's best to use a simple list of stops that the passenger changes to another service. For example, the journey `A→E` might contain the following patterns:
 
 ```
 A,B,C,E
@@ -21,13 +21,13 @@ A,C,E
 A,C,D,E
 ```
 
-It's possible process each pattern individually and split them into a list of origin + destination pairs representing one leg of the journey. For the transfer pattern `A,B,C,E` this would be:
+In order to turn these transfer patterns into journeys we process them individually and turn them into a list of origin and destination pairs representing one leg of the journey. For the transfer pattern `A,B,C,E` this would be:
 
 ```
 [A,B],[B,C],[C,E]
 ```
 
-Then each pair in a pattern can be converted to a list of legs between the origin an destination:
+Then look up all the trips operating between each pair of stops in the pattern. The relevant part of these trips can cut into a journey leg that runs between the origin and destination:
 
 ```
 A→B
@@ -41,7 +41,7 @@ d12:00,a12:30
 Scanning all the trips in a dataset to extract legs is expensive so it's best build up an index of trips that pick up and drop off at particular stations when the data set is loaded.
 
 ```JavaScript
-const tripIndex = {};
+const legIndex = {};
 
 for (const trip of trips) {
   for (let i = 0; i < trip.stopTimes.length - 1; i++) {
@@ -52,10 +52,9 @@ for (const trip of trips) {
         if (trip.stopTimes[j].dropOff) {
           const destination = trip.stopTimes[j].stop;
 
-          tripIndex[origin] = tripIndex[origin] || {};
-          tripIndex[origin][destination] = tripIndex[origin][destination] || [];
-
-          tripIndex[origin][destination].push(trip);
+          legIndex[origin] = legIndex[origin] || {};
+          legIndex[origin][destination] = legIndex[origin][destination] || [];
+          legIndex[origin][destination].push(trip.toLeg(origin, destination));
         }
       }
     }
@@ -63,9 +62,9 @@ for (const trip of trips) {
 }
 ```
 
-## Following the trail
+## Completing the journey
 
-Given a list of legs and an index of trips that service those legs, it's possible to progressively scan through each leg to find a trip that departs the origin station on or after the target departure time.
+Given a list of legs between every pair of stops, it's possible to progressively scan through those pairs to find a leg that departs the origin station on or after the target departure time.
 
 After each transfer to the next leg the target departure time is updated to reflect the arrival time of the previous leg.
 
@@ -76,23 +75,23 @@ Diagram
 If it is possible to progress to the final leg and find a trip then a complete journey can be made, otherwise the journey is not possible.
 
 ```JavaScript
-function getJourney(tripIndex, patterns, departureTime) {
+function getJourney(legIndex, patterns, departureTime) {
   const legs = [];
 
   for (const [origin, destination] of patterns) {
-    const trip = tripIndex[origin][destination].find(t => t.stopTimes[origin].departureTime >= departureTime);
+    const leg = legIndex[origin][destination].find(t => l.departureTime >= departureTime);
 
-    if (!trip) {
+    if (!leg) {
       return null; // journey not possible
     }
 
-    legs.push(trip);
+    legs.push(leg);
   }
 
   return legs;
 }
 
-##
+
 
 ## Transfers
 
