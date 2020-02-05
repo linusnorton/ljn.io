@@ -81,13 +81,10 @@ It will prompt you for a passphrase but you can leave it blank. For the purpose 
 Add the key to your server(s):
 
 ```bash
-scp deploy* <your-user>@<your-server-ip>/home/<your-user>/.ssh
+scp deploy.pub <your-user>@<your-server-ip>:/home/<your-user>/.ssh
 ssh <your-user>@<your-server-ip>
 cd .ssh
-mv deploy id_rsa
-mv deploy.pub id_rsa.pub
-chmod 600 .ssh/id_rsa*
-cat id_rsa.pub >> authorized_keys
+cat deploy.pub >> authorized_keys
 ```
 
 You can test the key by logging out of your server and then trying to connect again with:
@@ -158,6 +155,7 @@ module.exports = {
             "host": ["<your-server-ip>"],
             "ref": "origin/master",
             "repo": "git@github.com:<your-org/your-repo>.git",
+            "path": "/home/<your-user>/<project-name>",
             "post-deploy": "npm install && pm2 startOrRestart ecosystem.config.js --env production",
             "env"  : {
                 "NODE_ENV": "production"
@@ -192,7 +190,7 @@ The final step is to modify the deployment pipeline so that it pulls the latest 
 after_success:
 - eval "$(ssh-agent -s)"
 - chmod 600 ./deploy
-- echo -e "Host 35.178.27.220\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- echo -e "Host <your-ip>\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ./deploy
 - npm install pm2 -g
 - pm2 deploy ecosystem.config.js production update
