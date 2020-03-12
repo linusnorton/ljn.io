@@ -9,7 +9,6 @@ lang: "en"
 markdown: kramdown
 plugins:
   - jekyll-feed
-  - jekyll-autoprefixer
   - jekyll-minifier
   - jekyll-youtube
   - jekyll-gist
