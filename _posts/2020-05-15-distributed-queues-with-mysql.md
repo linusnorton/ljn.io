@@ -3,11 +3,11 @@ title: Distributed queues with MySQL 8
 date: 2020-05-15 02:00:00
 lastmod: 2020-05-15 02:00:00
 description: >-
-  Writing a distributed queue doesn't have to involve specialist software or writing reams of code. This post covers using MySQL to create a scalable distributed queue.
+  Writing a distributed queue doesn't have to involve specialist software or writing reams of code. In this post we use MySQL to create a scalable distributed queue.
 layout: post
 ---
 
-Writing a distributed queue doesn't have involve specialist software or writing reams of code. This post covers using MySQL to create a scalable distributed queue. All you will need is MySQL and two terminals.
+Writing a distributed queue doesn't have involve specialist software or writing reams of code. In this post we use MySQL to create a scalable distributed queue. All you will need is MySQL and two terminals.
 {: .article-headline}
 
 ## Setup
