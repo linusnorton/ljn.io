@@ -3,11 +3,9 @@ title: "When size matters: the day a rogue getter swallowed our case data"
 date: 2025-06-04 02:00:00
 lastmod: 2025-06-04 02:00:00
 description: >-
-  
+  Silent 200s, missing JSON: the tale of a rogue getter, early-flushed headers, and how HTTP buffering let Spring return a valid but half-empty response.
 layout: post
 ---
-
-# When size matters: the day a rogue getter swallowed our case data
 
 ## Where are my case notes?
 
