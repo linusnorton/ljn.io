@@ -45,6 +45,7 @@ This can also be framed as **Speed vs Power**.
 Agentic coding changes this trade-off by increasing the speed of development when using libraries. The initial cost of set up when composing libraries is offset by using a coding agent to do the work. Given access to curated collections of libraries or components through an MCP server, agents can correctly assemble individual components efficiently.
 
 ![Frameworks vs Libraries with Agents](/asset/img/agentic-coding-decentralisation-of-software-development/agentic-decentralisation-1.png)
+{: .img-responsive }
 
 That's not to say that agents don't work well with frameworks, the strict guardrails often help, but they do not solve the fundamental downsides of a framework. Using agents with libraries allows you to have the power and flexibility libraries already bring, but the speed and ease of use that is typically associated with frameworks.
 
@@ -83,6 +84,7 @@ So instead of large, centralised orchestration layers, intelligence moves closer
 This decentralisation empowers individual service teams to innovate rapidly without waiting on central gatekeepers. Architecture becomes a distributed ecosystem where composability replaces centralisation, and agility replaces dependency.
 
 ![Configuration Based vs Code Based with Agents](/asset/img/agentic-coding-decentralisation-of-software-development/agentic-decentralisation-2.png)
+{: .img-responsive }
 
 ## 3. Team Topology
 
@@ -103,6 +105,7 @@ Agentic coding reshapes team topology from centralised delivery functions into v
 This value-stream alignment mirrors the autonomy seen in the code and architecture layers. Teams become self-contained, adaptive units capable of shaping their own pipelines and responding directly to user needs.
 
 ![Centralised Teams vs Decentralised Teams with Agents](/asset/img/agentic-coding-decentralisation-of-software-development/agentic-decentralisation-3.png)
+{: .img-responsive }
 
 Ultimately [Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law) takes effect and the organisation decentralises to the same degree as its software.
 
